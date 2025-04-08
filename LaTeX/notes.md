@@ -1,0 +1,1 @@
+Jeu de 2 mm entre les boulons (1mm de chaque côté) -> coussinets
