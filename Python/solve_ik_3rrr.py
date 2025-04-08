@@ -1,5 +1,6 @@
 """ solve IK 3RRR robot code"""
 from numpy import pi
+import matplotlib.pyplot as plt
 import scipy as sc
 from solve_eq_nl import solve_eq_nl
 from trace_rob import trace_rob
@@ -14,9 +15,11 @@ pos_eff = [0., 0., 0]
 
 q0 = [0, pi/2, 0, pi/2, 0, pi/2]
 
-q = sc.optimize.fsolve(solve_eq_nl(q0, pos_eff), q0)
+q = sc.optimize.fsolve(solve_eq_nl, q0, args=pos_eff)
 
-trace_rob(q)
+f1 = trace_rob(q, 1)
 
-q = mgi_analytique(pos_eff)
-trace_rob(q)
+qn = mgi_analytique(pos_eff)
+f2 = trace_rob(qn, 2)
+
+plt.show()

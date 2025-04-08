@@ -40,7 +40,7 @@ for i=1:3
         beta=0; disp('problème d atteignabilité');
     end
     alpha=atan2(y,x)-atan2(L2*sin(beta),L1+L2*cos(beta));
-    q=[q;[alpha; beta]];
+    q=[q;[alpha; beta]]
     
 end
 

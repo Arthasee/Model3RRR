@@ -14,7 +14,7 @@ pos_eff=[0.0, 0.0, 0]; % pose effecteur
 % solutions initiales des angles alpha beta des bras 1,2,3
 q0=[0; pi/2; 0; pi/2; 0; pi/2];
 
-q=fsolve(@(q) solve_eq_NL(q,pos_eff),q0)
+q=fsolve(@(q) solve_eq_NL(q,pos_eff),q0);
 
 trace_rob(q);
 
