@@ -21,7 +21,7 @@ ang2=[-pi/2 pi/6 5*pi/6];
 %Mat. rotation et TH de l'effecteur
 RotEff=[cos(eff(3)) -sin(eff(3)); sin(eff(3)) cos(eff(3))];
 Transl=[eff(1); eff(2)];
-THEff=[RotEff Transl; 0 0 1];
+THEff=[RotEff Transl; 0 0 1]
 
 for i=1:3
     %Position des points E_i dans R_E
