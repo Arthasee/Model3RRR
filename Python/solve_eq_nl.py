@@ -1,13 +1,22 @@
 """solve_eq_nl code"""
-from numpy import pi, array, cos, sin, zeros
-import numpy as np
+from numpy import pi, array, cos, sin
 
 L1 = 0.10
 L2 = 0.10
 RB = 0.1322594
 RE = 0.07
 
+
 def solve_eq_nl(q, eff):
+    """solve the equation with nl
+
+    Args:
+        q (list): angles values for the 3 arms
+        eff (list): position of the effectors
+
+    Returns:
+        list: the q solution
+    """
     alpha1 = q[0]
     beta1 = q[1]
     alpha2 = q[2]
@@ -25,8 +34,10 @@ def solve_eq_nl(q, eff):
 
     rot_eff = array([[cos(eff[2]), -sin(eff[2])], [sin(eff[2]), cos(eff[2])]])
     transl = array([eff[0], eff[1]])
-    # th_eff = array([[[rot_eff], [transl]], [0, 0, 1]])
-    th_eff_in = [[rot_eff[0][0], rot_eff[0][1], transl[0]], [rot_eff[1][0], rot_eff[1][1], transl[1]], [0, 0, 1]]
+
+    th_eff_in = [[rot_eff[0][0], rot_eff[0][1], transl[0]],
+                 [rot_eff[1][0], rot_eff[1][1], transl[1]],
+                 [0, 0, 1]]
     th_eff = array(th_eff_in)
 
     for i in range(3):
@@ -34,10 +45,16 @@ def solve_eq_nl(q, eff):
 
         pei_0 = th_eff.dot(pei_e)
 
-        rot = array([[cos(ang1[i]), -sin(ang1[i])], [sin(ang1[i]), cos(ang1[i])]])
-        # thri_0 = array([rot, [RB*cos(ang2[i]), RB*sin(ang2[i])], [0, 0, 1]])
-        thri_0 = array([[rot[0][0], rot[0][1], RB*cos(ang2[i])], [rot[1][0], rot[1][1], RB*sin(ang2[i])], [0, 0, 1]])
-        pbi = thri_0.dot(array([L1*cos(alpha[i])+L2*cos(alpha[i]+beta[i]), L1*sin(alpha[i])+L2*sin(alpha[i]+beta[i]), 1]))
+        rot = array([[cos(ang1[i]), -sin(ang1[i])],
+                     [sin(ang1[i]), cos(ang1[i])]])
+
+        thri_0 = array([[rot[0][0], rot[0][1], RB*cos(ang2[i])],
+                        [rot[1][0], rot[1][1], RB*sin(ang2[i])],
+                        [0, 0, 1]])
+        pbi = thri_0.dot(array([L1*cos(alpha[i])+L2*cos(alpha[i]+beta[i]),
+                                L1*sin(alpha[i])+L2*sin(alpha[i]+beta[i]),
+                                1]))
+
         if i == 0:
             f[0] = pbi[0] - pei_0[0]
             f[1] = pbi[1] - pei_0[1]
@@ -46,4 +63,3 @@ def solve_eq_nl(q, eff):
             f[2*i+1] = pbi[1] - pei_0[1]
 
     return f
- 
