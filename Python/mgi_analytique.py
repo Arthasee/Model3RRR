@@ -51,6 +51,7 @@ def mgi_analytique(eff):
         else:
             beta = 0
             print("[ERREUR] -- problème d'atteignabilité")
+            return 0
         alpha = atan2(y, x) - atan2(L2*sin(beta), L1+L2*cos(beta))
         q = np.append(q, alpha)
         q = np.append(q, beta)
