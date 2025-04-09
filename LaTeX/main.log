@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.6.18)  8 APR 2025 22:56
+This is XeTeX, Version 3.141592653-2.6-0.999994 (TeX Live 2022) (preloaded format=xelatex 2022.6.18)  9 APR 2025 16:09
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -268,6 +268,18 @@ Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
  (/usr/local/texlive/2022/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2022-02-21 v7.00n Hyperref: PDF Unicode definition (HO)
 )
+
+/usr/local/texlive/2022/texmf-dist/tex/latex/hyperref/hyperref.sty:4018: Package keyval Error: JulienSagnes undefined.
+
+See the keyval package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.4018 \ProcessKeyvalOptions{Hyp}
+                                 
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
 Package hyperref Info: Option `pdfnewwindow' set `true' on input line 4018.
 Package hyperref Info: Option `bookmarksnumbered' set `true' on input line 4018.
 Package hyperref Info: Option `breaklinks' set `true' on input line 4018.
@@ -282,7 +294,7 @@ Package hyperref Info: Bookmarks ON on input line 4390.
 \c@Hy@tempcnt=\count284
 LaTeX Info: Redefining \url on input line 4749.
 \XeTeXLinkMargin=\dimen168
- (/usr/local/texlive/2022/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/local/texlive/2022/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
  (/usr/local/texlive/2022/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
@@ -668,7 +680,8 @@ Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
 Package csquotes Info: Redefining alias 'default' -> 'french'.
- (./main.aux)
+
+No file main.aux.
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 105.
@@ -681,7 +694,7 @@ LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 105.
 LaTeX Font Info:    ... okay on input line 105.
 LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 105.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 105.
- (/usr/local/texlive/2022/texmf-dist/tex/latex/base/ts1cmr.fd
+(/usr/local/texlive/2022/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    ... okay on input line 105.
@@ -720,14 +733,17 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 105.
 LaTeX Info: Redefining \pageref on input line 105.
 LaTeX Info: Redefining \nameref on input line 105.
- (./main.out) (./main.out)
 \@outlinefile=\write4
 \openout4 = `main.out'.
+
+
+
+Package hyperref Warning: Rerun to get /PageLabels entry.
 
 \c@lstlisting=\count448
 Package biblatex Info: Trying to load language 'french'...
 Package biblatex Info: ... file 'french.lbx' found.
- (/usr/local/texlive/2022/texmf-dist/tex/latex/biblatex/lbx/french.lbx
+(/usr/local/texlive/2022/texmf-dist/tex/latex/biblatex/lbx/french.lbx
 File: french.lbx 2022/02/02 v3.17 biblatex localization (PK/MW)
 )
 Package biblatex Info: XeTeX detected.
@@ -774,7 +790,7 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 119.
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
-] (./main.toc)
+]
 \tf@toc=\write5
 \openout5 = `main.toc'.
 
@@ -782,18 +798,32 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 
 ] (./main.aux)
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+
+LaTeX Warning: There were undefined references.
+
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `main.out':
+(rerunfilecheck)             Before: <no file>
+(rerunfilecheck)             After:  AFE9F7B2C7D175499279BD378711E5F3;545.
+
+Package biblatex Warning: Please (re)run Biber on the file:
+(biblatex)                main
+(biblatex)                and rerun LaTeX afterwards.
+
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 22698 strings out of 476179
- 396019 string characters out of 5809544
- 1137236 words of memory out of 5000000
- 43149 multiletter control sequences out of 15000+600000
- 521354 words of font info for 59 fonts, out of 8000000 for 9000
+ 22692 strings out of 476179
+ 395982 string characters out of 5809544
+ 1137026 words of memory out of 5000000
+ 43151 multiletter control sequences out of 15000+600000
+ 524352 words of font info for 60 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  60i,6n,68p,1176b,5437s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
