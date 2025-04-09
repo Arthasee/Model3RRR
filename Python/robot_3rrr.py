@@ -37,7 +37,8 @@ class Robot3RRR:
         """draw the robot with matplotlib or pygame
 
         Args:
-            screen (pygame.display, optional): the screen of pygame if used. Defaults to None.
+            screen (pygame.display, optional): the screen of pygame if used.\
+                Defaults to None.
         """
         if not self.game:
             trace_rob(self.q, 1)
@@ -118,6 +119,12 @@ class Robot3RRR:
             keys = pygame.key.get_pressed()
 
             screen.fill((255, 255, 255))
+            old_q = self.q
+            self.q = mgi_analytique(self.pos_eff)
+            if isinstance(self.q, int):
+                self.q = old_q
+            elif self.pos_eff[2] < 1:
+                self.pos_eff[2] += 0.001
             self.draw(screen)
 
             # time_text = font.render(f"Time: {round(self.clock[-1], 1)}", True, (0, 0, 0))
@@ -133,7 +140,7 @@ class Robot3RRR:
 
 if __name__ == '__main__':
     robot = Robot3RRR()
-    # robot.game = True
-    robot.draw()
+    robot.game = True
     robot.q = mgi_analytique(robot.pos_eff)
+    # robot.draw()
     robot.simulate()
