@@ -1,0 +1,1 @@
+controller_joint_names: ['', 'motor_to_arm_1', 'arm_to_forearm_1', 'forearm_to_hand_1', 'motor_to_arm_2', 'arm_to_forearm_2', 'forearm_to_hand_2', 'motor_to_arm_3', 'arm_to_forearm_3', 'forearm_to_hand_3', ]
