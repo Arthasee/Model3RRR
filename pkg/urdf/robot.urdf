@@ -26,7 +26,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/base_link.STL" />
+          filename="../../pkg/meshes/base_link.STL" />
       </geometry>
       <material
         name="">
@@ -40,7 +40,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/base_link.STL" />
+          filename="../../pkg/meshes/base_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -66,7 +66,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/motorlink1.STL" />
+          filename="../../pkg/meshes/motorlink1.STL" />
       </geometry>
       <material
         name="">
@@ -80,7 +80,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/motorlink1.STL" />
+          filename="../../pkg/meshes/motorlink1.STL" />
       </geometry>
     </collision>
   </link>
@@ -119,7 +119,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/motor_to_arm_1.STL" />
+          filename="../../pkg/meshes/motor_to_arm_1.STL" />
       </geometry>
       <material
         name="">
@@ -133,7 +133,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/motor_to_arm_1.STL" />
+          filename="../../pkg/meshes/motor_to_arm_1.STL" />
       </geometry>
     </collision>
   </link>
@@ -177,7 +177,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/arm_to_forearm_1.STL" />
+          filename="../../pkg/meshes/arm_to_forearm_1.STL" />
       </geometry>
       <material
         name="">
@@ -191,7 +191,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/arm_to_forearm_1.STL" />
+          filename="../../pkg/meshes/arm_to_forearm_1.STL" />
       </geometry>
     </collision>
   </link>
@@ -235,7 +235,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/forearm_to_hand_1.STL" />
+          filename="../../pkg/meshes/forearm_to_hand_1.STL" />
       </geometry>
       <material
         name="">
@@ -249,7 +249,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/forearm_to_hand_1.STL" />
+          filename="../../pkg/meshes/forearm_to_hand_1.STL" />
       </geometry>
     </collision>
   </link>
@@ -293,7 +293,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/motorlink2.STL" />
+          filename="../../pkg/meshes/motorlink2.STL" />
       </geometry>
       <material
         name="">
@@ -307,7 +307,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/motorlink2.STL" />
+          filename="../../pkg/meshes/motorlink2.STL" />
       </geometry>
     </collision>
   </link>
@@ -346,7 +346,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/motor_to_arm_2.STL" />
+          filename="../../pkg/meshes/motor_to_arm_2.STL" />
       </geometry>
       <material
         name="">
@@ -360,7 +360,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/motor_to_arm_2.STL" />
+          filename="../../pkg/meshes/motor_to_arm_2.STL" />
       </geometry>
     </collision>
   </link>
@@ -404,7 +404,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/arm_to_forearm_2.STL" />
+          filename="../../pkg/meshes/arm_to_forearm_2.STL" />
       </geometry>
       <material
         name="">
@@ -418,7 +418,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/arm_to_forearm_2.STL" />
+          filename="../../pkg/meshes/arm_to_forearm_2.STL" />
       </geometry>
     </collision>
   </link>
@@ -462,7 +462,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/forearm_to_hand_2.STL" />
+          filename="../../pkg/meshes/forearm_to_hand_2.STL" />
       </geometry>
       <material
         name="">
@@ -476,7 +476,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/forearm_to_hand_2.STL" />
+          filename="../../pkg/meshes/forearm_to_hand_2.STL" />
       </geometry>
     </collision>
   </link>
@@ -520,7 +520,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/motorlink3.STL" />
+          filename="../../pkg/meshes/motorlink3.STL" />
       </geometry>
       <material
         name="">
@@ -534,7 +534,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/motorlink3.STL" />
+          filename="../../pkg/meshes/motorlink3.STL" />
       </geometry>
     </collision>
   </link>
@@ -573,7 +573,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/motor_to_arm_3.STL" />
+          filename="../../pkg/meshes/motor_to_arm_3.STL" />
       </geometry>
       <material
         name="">
@@ -587,7 +587,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/motor_to_arm_3.STL" />
+          filename="../../pkg/meshes/motor_to_arm_3.STL" />
       </geometry>
     </collision>
   </link>
@@ -631,7 +631,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/arm_to_forearm_3.STL" />
+          filename="../../pkg/meshes/arm_to_forearm_3.STL" />
       </geometry>
       <material
         name="">
@@ -645,7 +645,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/arm_to_forearm_3.STL" />
+          filename="../../pkg/meshes/arm_to_forearm_3.STL" />
       </geometry>
     </collision>
   </link>
@@ -689,7 +689,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/forearm_to_hand_3.STL" />
+          filename="../../pkg/meshes/forearm_to_hand_3.STL" />
       </geometry>
       <material
         name="">
@@ -703,7 +703,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://pkg/meshes/forearm_to_hand_3.STL" />
+          filename="../../pkg/meshes/forearm_to_hand_3.STL" />
       </geometry>
     </collision>
   </link>
