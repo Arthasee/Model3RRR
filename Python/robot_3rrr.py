@@ -123,8 +123,24 @@ class Robot3RRR:
             self.q = mgi_analytique(self.pos_eff)
             if isinstance(self.q, int):
                 self.q = old_q
-            elif self.pos_eff[2] < 1:
-                self.pos_eff[2] += 0.001
+            if keys[pygame.K_s]:
+                self.pos_eff[1] += 0.001
+                self.pos_eff[1] = min(1, self.pos_eff[1])
+            elif keys[pygame.K_z]:
+                self.pos_eff[1] -= 0.001
+                self.pos_eff[1] = max(-1, self.pos_eff[1])
+            elif keys[pygame.K_q]:
+                self.pos_eff[0] -= 0.001
+                self.pos_eff[0] = max(-1, self.pos_eff[0])
+            elif keys[pygame.K_d]:
+                self.pos_eff[0] += 0.001
+                self.pos_eff[0] = min(1, self.pos_eff[0])
+            elif keys[pygame.K_e]:
+                self.pos_eff[2] += 0.01
+                self.pos_eff[2] = min(1, self.pos_eff[2])
+            elif keys[pygame.K_a]:
+                self.pos_eff[2] -= 0.01
+                self.pos_eff[2] = max(-1, self.pos_eff[2])
             self.draw(screen)
 
             # time_text = font.render(f"Time: {round(self.clock[-1], 1)}", True, (0, 0, 0))
