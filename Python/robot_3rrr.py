@@ -19,6 +19,7 @@ class Robot3RRR:
         self.rb = rb
         self.re = re
         self.pos_eff = [0., 0., 0.]
+        self.pos = []
         self.q = [0, pi/2, 0, pi/2, 0, pi/2]
         self.game = False
         self.step = 0.1
@@ -106,7 +107,7 @@ class Robot3RRR:
         """
         if not self.game:
             return
-        successes, failures = pygame.init()
+        pygame.init()
         screen = pygame.display.set_mode(self.game_dimensions)
         clock = pygame.time.Clock()
         # font = pygame.font.Font(None, 36)
@@ -141,6 +142,8 @@ class Robot3RRR:
             elif keys[pygame.K_a]:
                 self.pos_eff[2] -= 0.01
                 self.pos_eff[2] = max(-1, self.pos_eff[2])
+            self.pos.append(self.pos_eff)
+            self.clock.append(self.clock[-1] + self.step)
             self.draw(screen)
 
             # time_text = font.render(f"Time: {round(self.clock[-1], 1)}", True, (0, 0, 0))
@@ -149,9 +152,10 @@ class Robot3RRR:
 
             pygame.display.flip()
 
-            if keys[pygame.K_ESCAPE]:
+            if keys[pygame.K_ESCAPE] or keys[pygame.K_SPACE]:
                 self.running = False
                 pygame.quit()
+                return ("fin")
 
 
 if __name__ == '__main__':
