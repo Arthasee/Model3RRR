@@ -160,7 +160,8 @@ sorting=none
 
 \section{Conception}
 
-Pour la conception, nous utilisons le logiciel SolidWorks. Nous avons décidé de suivre le modèle du TP pour dessiner les différentes pièces, en s'assurant de garder des distances de l'ordre de la dizaine de centimètre ; il est question de ne pas faire un robot trop grand.
+Pour la conception, nous utilisons le logiciel SolidWorks. Nous avons décidé de suivre le modèle du TP pour dessiner les différentes pièces, 
+en s'assurant de garder des distances de l'ordre de la dizaine de centimètre ; nous nous assurons de ne pas concevoir un robot trop grand.
 
 \subsection{Bras du robot}
 
@@ -171,18 +172,16 @@ qui détaille aussi les côtes des pièces en millimètres. Du reste, nous utili
 
 \begin{figure}[h]
     \centering
-    \begin{subfigure}[t]{0.55\textwidth}
+    \begin{subfigure}[t]{0.50\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Figures/bras_effecteur.png}
         \caption{Bras effecteur}
-        \label{fig:bras_effecteur}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[t]{0.40\textwidth}
+    \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Figures/bras_moteur.png}
         \caption{Bras moteur}
-        \label{fig:bras_moteur}
     \end{subfigure}
     \caption{Allègement des bras du robot}
     \label{fig:bras}
@@ -191,7 +190,60 @@ qui détaille aussi les côtes des pièces en millimètres. Du reste, nous utili
 \subsection{Effecteur}
 
 Pour l'effecteur, nous optons pour une forme triangulaire, dont les côtés sont agencés de telle sorte qu'ils puissent auceuillir les boulons.
-En effet, les trous que nous faisons sur les pièces ont pour but d'acceuillir des boulons M6 (diamètre du trou 6.3 mm), auquel on rajoute un jeu de 0.15 mm.
+En effet, les trous que nous faisons sur les pièces (liaison pivot entre les bras et l'effecteur)
+ont pour but d'acceuillir des boulons M6 (diamètre du trou 6.3 mm), auquel on rajoute un jeu de 0.15 mm.
+Dans un but de maximisation de l'espace de travail, nous effectuons des extrusions sur le bord de la pièce pour éviter les blocages et assurer une rotation libre,
+comme nous pouvons le voir sur la figure \ref{fig:effecteur}. Nous ajoutons également un trou au centre pour acceuillir un stylo que l'on serre avec une vis M5.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figures/effecteur.png}
+    \caption{Effecteur}
+    \label{fig:effecteur}
+\end{figure}
+
+\subsection{Moteur}
+
+Quant aux moteurs, nous avons importé le cerveau moteur de type AX12 de Dynamixel que nous fixerons au bras grâce à quatre vis M2, 
+comme nous pouvons le voir sur la figure \ref{fig:moteur}.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[t]{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/moteur_AX12.png}
+        \caption{Moteur assemblé}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.50\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/moteur_accroche.png}
+        \caption{Moteur accroché}
+    \end{subfigure}
+    \caption{Moteur AX12}
+    \label{fig:moteur}
+\end{figure}
+
+\subsection{Assemblages}
+
+Enfin, nous effectuons l'assemblage du robot en utilisant des contraintes standards de coaxialité et de coïncidence pour les vis, et des liaisons pivots entre les bras et l'effecteur. Nous accrochons ensuite les moteurs à une base fixe pour que ces derniers restent immobiles, comme illustré sur la figure \ref{fig:assemblage}.
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/assemblage_1.png}
+        \caption{Assemblage du robot}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/assemblage_2.png}
+        \caption{Assemblage après mouvement}
+    \end{subfigure}
+    \caption{Assemblage sur SolidWorks}
+    \label{fig:assemblage}
+\end{figure}
 
 \section{Simulation}
 
