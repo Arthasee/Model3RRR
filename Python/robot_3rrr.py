@@ -29,10 +29,10 @@ class Robot3RRR:
         self.fps = 60
 
     def __str__(self):
-        pass
+        return f"Robot(l1 = {self.l1}, l2 = {self.l2}, rb = {self.rb}, re = {self.re})"
 
     def __repr__(self):
-        pass
+        return str(self)
 
     def draw(self, screen=None):
         """draw the robot with matplotlib or pygame
@@ -175,6 +175,7 @@ class Robot3RRR:
 if __name__ == '__main__':
     robot = Robot3RRR()
     robot.game = True
+    print(robot)
     robot.q = mgi_analytique(robot.pos_eff)
     # robot.draw()
     robot.simulate()
