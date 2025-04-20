@@ -29,10 +29,10 @@ class Robot3RRR:
         self.fps = 60
 
     def __str__(self):
-        pass
+        return f"Robot(l1 = {self.l1}, l2 = {self.l2}, rb = {self.rb}, re = {self.re})"
 
     def __repr__(self):
-        pass
+        return str(self)
 
     def draw(self, screen=None):
         """draw the robot with matplotlib or pygame
@@ -101,6 +101,20 @@ class Robot3RRR:
                                        [(p12[0], p12[1]),
                                         (p22[0], p22[1]),
                                         (p32[0], p32[1])])
+        
+        # Croix au centre du triangle
+        cx = (p12[0] + p22[0] + p32[0]) / 3
+        cy = (p12[1] + p22[1] + p32[1]) / 3
+        size = 3
+        pygame.draw.line(screen, (0, 0, 0), (cx - size, cy - size), (cx + size, cy + size), 2)
+        pygame.draw.line(screen, (0, 0, 0), (cx - size, cy + size), (cx + size, cy - size), 2)
+        
+        # Traçage de trajectoire
+        if len(self.pos) > 1:
+            for i in range(len(self.pos) - 1):
+                p1 = array(self.pos[i][:2]) * self.scale + offset2 / 2
+                p2 = array(self.pos[i + 1][:2]) * self.scale + offset2 / 2
+                pygame.draw.line(screen, (0, 0, 255), (p1[0], p1[1]), (p2[0], p2[1]), 2)
 
     def simulate(self):
         """simulate on pygame the robot and its displacements
@@ -142,7 +156,7 @@ class Robot3RRR:
             elif keys[pygame.K_a]:
                 self.pos_eff[2] -= 0.01
                 self.pos_eff[2] = max(-1, self.pos_eff[2])
-            self.pos.append(self.pos_eff)
+            self.pos.append(self.pos_eff[:])
             self.clock.append(self.clock[-1] + self.step)
             self.draw(screen)
 
@@ -161,6 +175,7 @@ class Robot3RRR:
 if __name__ == '__main__':
     robot = Robot3RRR()
     robot.game = True
+    print(robot)
     robot.q = mgi_analytique(robot.pos_eff)
     # robot.draw()
     robot.simulate()
