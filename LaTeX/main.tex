@@ -26,9 +26,9 @@
 \counterwithin{figure}{section}
 
 % Sommaire + hyperliens
-
+% \usepackage{bookmark}
 \usepackage[hyphens]{url}
-\usepackage[pdfauthor = {{Baptiste Braun-Delvoye}, {Julien Sagnes}}, pdftitle = {{Rapport de Projet}}, pdfstartview = Fit, pdfpagelayout = SinglePage, pdfnewwindow = true, bookmarksnumbered = true, breaklinks, colorlinks, linkcolor = black, urlcolor = black, citecolor = black, linktoc = all]{hyperref}
+\usepackage[pdfauthor = {{Baptiste Braun-Delvoye, Julien Sagnes}}, pdftitle = {{Rapport de Projet}}, pdfstartview = Fit, pdfpagelayout = SinglePage, pdfnewwindow = true, bookmarksnumbered = true, breaklinks, colorlinks, linkcolor = black, urlcolor = black, citecolor = black, linktoc = all]{hyperref}
 \usepackage[
     left = \flqq{},% 
     right = \frqq{},% 
@@ -92,10 +92,7 @@
 % Bibliographie
 
 \usepackage{csquotes}
-\usepackage[backend=biber,
-style=ieee,
-sorting=none
-]{biblatex}
+\usepackage[backend=biber,style=ieee,sorting=none]{biblatex}
 \addbibresource{biblio.bib}
 
 % \title{Rapport Stage Pantographe Haptique}
@@ -165,10 +162,6 @@ en s'assurant de garder des distances de l'ordre de la dizaine de centimètre ; 
 
 \subsection{Bras du robot}
 
-Dans un premier temps, nous concevons les bras qui composent le robot pour décider de la taille générale de la maquette.
-Également, il est question de minimiser la quantité de matériaux utilisée pour les différentes pièces dans l'objectif de réduire le coût d'impression 3D.
-Nous opérons donc une optimisation topologique sur les différents bras en effectuant des allègements, comme nous pouvons le voir sur la figure \ref{fig:bras}, 
-qui détaille aussi les côtes des pièces en millimètres. Du reste, nous utilisons des congés pour adoucir les bords des pièces afin de rendre le robot plus harmonieux.
 
 \begin{figure}[h]
     \centering
@@ -186,28 +179,32 @@ qui détaille aussi les côtes des pièces en millimètres. Du reste, nous utili
     \caption{Allègement des bras du robot}
     \label{fig:bras}
 \end{figure}
+Dans un premier temps, nous concevons les bras qui composent le robot pour décider de la taille générale de la maquette.
+Également, il est question de minimiser la quantité de matériaux utilisée pour les différentes pièces dans l'objectif de réduire le coût d'impression 3D.
+Nous opérons donc une optimisation topologique sur les différents bras en effectuant des allègements, comme nous pouvons le voir sur la figure \ref{fig:bras}, 
+qui détaille aussi les côtes des pièces en millimètres. Du reste, nous utilisons des congés pour adoucir les bords des pièces afin de rendre le robot plus harmonieux.
 
 \subsection{Effecteur}
 
-Pour l'effecteur, nous optons pour une forme triangulaire, dont les côtés sont agencés de telle sorte qu'ils puissent auceuillir les boulons.
-En effet, les trous que nous faisons sur les pièces (liaison pivot entre les bras et l'effecteur)
-ont pour but d'acceuillir des boulons M6 (diamètre du trou 6.3 mm), auquel on rajoute un jeu de 0.15 mm.
-Dans un but de maximisation de l'espace de travail, nous effectuons des extrusions sur le bord de la pièce pour éviter les blocages et assurer une rotation libre,
-comme nous pouvons le voir sur la figure \ref{fig:effecteur}. Nous ajoutons également un trou au centre pour acceuillir un stylo que l'on serre avec une vis M5.
 
-\begin{figure}[h]
+\begin{figure}[!tbh]
     \centering
     \includegraphics[width=0.5\textwidth]{Figures/effecteur.png}
     \caption{Effecteur}
     \label{fig:effecteur}
 \end{figure}
+Pour l'effecteur, nous optons pour une forme triangulaire, dont les côtés sont agencés de telle sorte qu'ils puissent auceuillir les boulons.
+En effet, les trous que nous faisons sur les pièces (liaison pivot entre les bras et l'effecteur)
+ont pour but d'acceuillir des boulons M6 (diamètre du trou 6.3 mm), auquel on rajoute un jeu de 0.15 mm.
+Dans un but de maximisation de l'espace de travail, nous effectuons des extrusions sur le bord de la pièce pour éviter les blocages et assurer une rotation libre,
+comme nous pouvons le voir sur la figure \ref{fig:effecteur}. 
+Nous ajoutons également un trou au centre pour acceuillir un stylo que l'on serre avec une vis M5.
 
 \subsection{Moteur}
 
-Quant aux moteurs, nous avons importé le cerveau moteur de type AX12 de Dynamixel que nous fixerons au bras grâce à quatre vis M2, 
-comme nous pouvons le voir sur la figure \ref{fig:moteur}.
+% [\cite{hamdoun_inverse_2015}]
 
-\begin{figure}[h]
+\begin{figure}[!tbh]
     \centering
     \begin{subfigure}[t]{0.45\textwidth}
         \centering
@@ -223,12 +220,12 @@ comme nous pouvons le voir sur la figure \ref{fig:moteur}.
     \caption{Moteur AX12}
     \label{fig:moteur}
 \end{figure}
+Quant aux moteurs, nous avons importé le cerveau moteur de type AX12 de Dynamixel que nous fixerons au bras grâce à quatre vis M2, comme nous pouvons le voir sur la figure \ref{fig:moteur}.
 
 \subsection{Assemblages}
 
-Enfin, nous effectuons l'assemblage du robot en utilisant des contraintes standards de coaxialité et de coïncidence pour les vis, et des liaisons pivots entre les bras et l'effecteur. Nous accrochons ensuite les moteurs à une base fixe pour que ces derniers restent immobiles, comme illustré sur la figure \ref{fig:assemblage}.
 
-\begin{figure}[h]
+\begin{figure}[!tbh]
     \centering
     \begin{subfigure}[t]{0.48\textwidth}
         \centering
@@ -245,6 +242,7 @@ Enfin, nous effectuons l'assemblage du robot en utilisant des contraintes standa
     \label{fig:assemblage}
 \end{figure}
 
+Enfin, nous effectuons l'assemblage du robot en utilisant des contraintes standards de coaxialité et de coïncidence pour les vis, et des liaisons pivots entre les bras et l'effecteur. Nous accrochons ensuite les moteurs à une base fixe pour que ces derniers restent immobiles, comme illustré sur la figure \ref{fig:assemblage}.
 \section{Simulation}
 
 \section{Réalisation}
@@ -254,8 +252,8 @@ Enfin, nous effectuons l'assemblage du robot en utilisant des contraintes standa
 
 % \newpage
 
-% \newpage
-% \nocite{*}
-% \addcontentsline{toc}{section}{Bibliographie} 
-% \printbibliography
+\newpage
+\nocite{*}
+\addcontentsline{toc}{section}{Bibliographie} 
+\printbibliography
 \end{document}
