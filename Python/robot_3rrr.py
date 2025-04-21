@@ -134,42 +134,43 @@ class Robot3RRR:
             keys = pygame.key.get_pressed()
 
             screen.fill((255, 255, 255))
-            old_q = self.q
-            self.q = mgi_analytique(self.pos_eff)
-            if isinstance(self.q, int):
-                self.q = old_q
+
+            new_pos_eff = self.pos_eff[:]
+
             if keys[pygame.K_s]:
-                self.pos_eff[1] += 0.001
-                self.pos_eff[1] = min(1, self.pos_eff[1])
+                new_pos_eff[1] += 0.001
+                new_pos_eff[1] = min(1, new_pos_eff[1])
             elif keys[pygame.K_z]:
-                self.pos_eff[1] -= 0.001
-                self.pos_eff[1] = max(-1, self.pos_eff[1])
+                new_pos_eff[1] -= 0.001
+                new_pos_eff[1] = max(-1, new_pos_eff[1])
             elif keys[pygame.K_q]:
-                self.pos_eff[0] -= 0.001
-                self.pos_eff[0] = max(-1, self.pos_eff[0])
+                new_pos_eff[0] -= 0.001
+                new_pos_eff[0] = max(-1, new_pos_eff[0])
             elif keys[pygame.K_d]:
-                self.pos_eff[0] += 0.001
-                self.pos_eff[0] = min(1, self.pos_eff[0])
+                new_pos_eff[0] += 0.001
+                new_pos_eff[0] = min(1, new_pos_eff[0])
             elif keys[pygame.K_e]:
-                self.pos_eff[2] += 0.01
-                self.pos_eff[2] = min(1, self.pos_eff[2])
+                new_pos_eff[2] += 0.01
+                new_pos_eff[2] = min(1, new_pos_eff[2])
             elif keys[pygame.K_a]:
-                self.pos_eff[2] -= 0.01
-                self.pos_eff[2] = max(-1, self.pos_eff[2])
-            self.pos.append(self.pos_eff[:])
+                new_pos_eff[2] -= 0.01
+                new_pos_eff[2] = max(-1, new_pos_eff[2])
+
+            new_q = mgi_analytique(new_pos_eff)
+
+            if not isinstance(new_q, int):  # if q == 0
+                self.pos_eff = new_pos_eff
+                self.q = new_q
+                self.pos.append(self.pos_eff[:])  # trace que si valide
+                
             self.clock.append(self.clock[-1] + self.step)
             self.draw(screen)
-
-            # time_text = font.render(f"Time: {round(self.clock[-1], 1)}", True, (0, 0, 0))
-            # text_rect = time_text.get_rect(bottomright=(self.game_dimensions[0] - 10, self.game_dimensions[1] - 10))
-            # screen.blit(time_text, text_rect)
-
             pygame.display.flip()
 
             if keys[pygame.K_ESCAPE] or keys[pygame.K_SPACE]:
                 self.running = False
                 pygame.quit()
-                return ("fin")
+                return "fin"
 
 
 if __name__ == '__main__':
