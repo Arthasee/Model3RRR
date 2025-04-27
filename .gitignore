@@ -1,2 +1,5 @@
 .DS_Store
 .vscode
+Python/__pycache__
+Python/__pycache__/mgi_analytique.cpython-311.pyc
+Python/__pycache__/trace_rob.cpython-311.pyc
