@@ -339,9 +339,6 @@ class Robot3RRR:
                 pygame.quit()
                 return "fin"
 
-    def trace_S(self):
-        pass
-
 
 if __name__ == '__main__':
     robot = Robot3RRR()
