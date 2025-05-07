@@ -225,12 +225,11 @@ class Robot3RRR:
         pygame.draw.line(screen, (0, 0, 0), (cx - size, cy + size), (cx + size, cy - size), 2)
         
         # Traçage de trajectoire
-        if len(self.pos) > 1 and self.pen:
+        if len(self.pos) > 1:
             for i in range(len(self.pos) - 1):
                 # p1 = array(self.pos[i][:2]) * self.scale + offset2 / 2
                 p2 = array(self.pos[i + 1][:2]) * self.scale + offset2 / 2
                 pygame.draw.circle(screen, (0, 0, 255),(p2[0], p2[1]), 1,0)
-                # pygame.draw.line(screen, (0, 0, 255), (p1[0], p1[1]), (p2[0], p2[1]), 2)
 
     def simulate(self):
         """simulate on pygame the robot and its displacements"""
