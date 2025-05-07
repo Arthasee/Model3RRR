@@ -12,7 +12,7 @@ import pygame.locals
 
 class Robot3RRR:
     """class of the robot 3RRR"""
-    def __init__(self, l1=0.13, l2=0.15, rb=0.168, re=0.04618):
+    def __init__(self, l1=0.13, l2=0.15, rb=0.164, re=0.04618):
         self.clock = [0.0]
         self.l1 = l1
         self.l2 = l2
@@ -34,7 +34,7 @@ class Robot3RRR:
 
     def __repr__(self):
         return str(self)
-    
+
     def mgi_analytique(self, eff):
         """determine the inverse geometric model
 
@@ -83,7 +83,7 @@ class Robot3RRR:
             q = np.append(q, beta)
         print(q)
         return q
-    
+
     def trace_rob(self, q, name):
         """trace the robot with matplotlib.pyplot
 
@@ -329,7 +329,7 @@ class Robot3RRR:
                 self.q = new_q
                 if self.pen:
                     self.pos.append(self.pos_eff[:])  # trace que si valide
-                
+
             self.clock.append(self.clock[-1] + self.step)
             self.draw(screen)
             pygame.display.flip()
@@ -338,7 +338,7 @@ class Robot3RRR:
                 self.running = False
                 pygame.quit()
                 return "fin"
-            
+
     def trace_S(self):
         pass
 
