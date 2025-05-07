@@ -72,7 +72,7 @@ class Robot3RRR:
             y = pei_i[1]
 
             aux = (x**2+y**2-self.l1**2-self.l2**2)/(2*self.l1*self.l2)
-            if abs(aux) < 1:
+            if abs(aux) <= 1:
                 beta = acos(aux)
             else:
                 beta = 0
