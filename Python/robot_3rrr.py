@@ -304,9 +304,9 @@ class Robot3RRR:
                 pygame.draw.circle(screen, (0, 0, 255),(p2[0], p2[1]), 1,0)
         elif self.interpolate:
             for i in range(len(self.pos) - 1):
-                # p1 = array(self.pos[i][:2]) * self.scale + offset2 / 2
+                p1 = array(self.pos[i][:2]) * self.scale + offset2 / 2
                 p2 = array(self.pos[i + 1][:2]) * self.scale + offset2 / 2
-                pygame.draw.line(screen, (0, 0, 255),(p2[0], p2[1]), 1,0)
+                pygame.draw.line(screen, (0, 0, 255),(p1[0], p1[1]),(p2[0], p2[1]), 2)
 
     def simulate(self):
         """simulate on pygame the robot and its displacements"""
@@ -367,8 +367,8 @@ class Robot3RRR:
                 return "fin"
             
     def interpolate_path(self, points, n_steps=50):
-        
         self.interpolate = True
+        self.fps = 45  
 
         if not self.game:
             return
@@ -376,33 +376,42 @@ class Robot3RRR:
         screen = pygame.display.set_mode(self.game_dimensions)
         clock = pygame.time.Clock()
 
-        for i in range(len(points) - 1):
-            pygame.event.pump()
+        running = True
+        while running:
+            for i in range(len(points) - 1):
+                pygame.event.pump()
+                keys = pygame.key.get_pressed()
 
-            screen.fill((255, 255, 255))
+                p_start = np.array(points[i])
+                p_end = np.array(points[i + 1])
+                for t in np.linspace(0, 1, n_steps):
+                    
+                    if keys[pygame.K_ESCAPE] or keys[pygame.K_SPACE]:
+                        self.running = False
+                        pygame.quit()
+                        return "fin"
 
-            p_start = np.array(points[i])
-            p_end = np.array(points[i + 1])
-            for t in np.linspace(0, 1, n_steps):
-                p_interp = (1 - t) * p_start + t * p_end
-                
-                new_q = self.mgi_analytique(p_interp)
+                    p_interp = (1 - t) * p_start + t * p_end
+                    
+                    new_q = self.mgi_analytique(p_interp)
 
-                if not isinstance(new_q, int):  # if q == 0
-                    self.pos_eff = p_interp
-                    self.q = new_q
-                    if self.pen:
-                        self.pos.append(self.pos_eff[:])  # trace que si valide
-                
-                clock.tick(self.fps)
-                self.clock.append(self.clock[-1] + self.step)
-                self.draw(screen)
-                pygame.display.flip()
+                    if not isinstance(new_q, int):  # if q == 0
+                        self.pos_eff = p_interp
+                        self.q = new_q
+                        if self.pen:
+                            self.pos.append(self.pos_eff[:])  # trace que si valide
+                    
+                    screen.fill((255, 255, 255))
+                    clock.tick(self.fps)
+                    self.clock.append(self.clock[-1] + self.step)
+                    self.draw(screen)
+                    pygame.display.flip()
 
-            self.interpolate = False
+    
+        self.interpolate = False
+        self.fps = 60
 
-            
-    def trace_square(self, height = 0.1):
+    def trace_square(self, height = 0.05):
         """Fait tracer un carré au robot 3RRR en mode matplotlib"""
 
         square_points = [
@@ -420,7 +429,7 @@ class Robot3RRR:
 
 if __name__ == '__main__':
 
-    test_control = True
+    test_control = False
     test_square = True
 
     robot = Robot3RRR()
