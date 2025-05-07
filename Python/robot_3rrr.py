@@ -362,13 +362,13 @@ class Robot3RRR:
             pygame.display.flip()
 
             if keys[pygame.K_ESCAPE] or keys[pygame.K_SPACE]:
-                self.running = False
+                running = False
                 pygame.quit()
                 return "fin"
             
-    def interpolate_path(self, points, n_steps=50):
+    def interpolate_path(self, points, n_steps=50, fps = 30):
         self.interpolate = True
-        self.fps = 45  
+        self.fps = fps  
 
         if not self.game:
             return
@@ -387,7 +387,7 @@ class Robot3RRR:
                 for t in np.linspace(0, 1, n_steps):
                     
                     if keys[pygame.K_ESCAPE] or keys[pygame.K_SPACE]:
-                        self.running = False
+                        running = False
                         pygame.quit()
                         return "fin"
 
@@ -411,8 +411,8 @@ class Robot3RRR:
         self.interpolate = False
         self.fps = 60
 
-    def trace_square(self, height = 0.05):
-        """Fait tracer un carré au robot 3RRR en mode matplotlib"""
+    def trace_square(self, height = 0.07, n_steps = 100, fps = 60):
+        """Trace un carré"""
 
         square_points = [
             [-height, -height, 0],
@@ -425,12 +425,27 @@ class Robot3RRR:
         self.pos = []
         self.pen = True
 
-        self.interpolate_path(square_points, n_steps=50)
+        self.interpolate_path(square_points, n_steps = n_steps, fps = fps)
+
+    def trace_circle(self, center = (0.0, 0.0), radius=0.07, N = 100, n_steps = 10, fps = 60):
+        """Trace un cercle"""
+
+        circle_points = []
+        angles = np.linspace(0, 2 * pi, N)
+
+        for angle in angles:
+            # Calcul de la position cible sur le cercle
+            x = center[0] + radius * cos(angle)
+            y = center[1] + radius * sin(angle)
+            circle_points.append([x, y, 0])
+
+        self.interpolate_path(circle_points, n_steps = n_steps, fps = fps)
 
 if __name__ == '__main__':
 
-    test_control = False
-    test_square = True
+    test_control = 0
+    test_square = 0
+    test_circle = 1
 
     robot = Robot3RRR()
 
@@ -441,7 +456,10 @@ if __name__ == '__main__':
         robot.game = False
         robot.draw()
 
-    elif test_square:
+    if test_square:
         robot.game = True
-        robot.q = robot.mgi_analytique(robot.pos_eff)
-        robot.trace_square()
+        robot.trace_square()    #Rester appuyé sur échap pour quitter
+
+    elif test_circle:
+        robot.game = True
+        robot.trace_circle()    #Rester appuyé sur échap pour quitter
