@@ -1,17 +1,18 @@
 """test for a 3rrr class"""
 
-from numpy import pi, array, cos, sin, tan, sqrt
+import numpy as np
+from numpy import pi, array, cos, sin, atan2, sqrt, acos
 import matplotlib.pyplot as plt
 import pygame
 import pygame.locals
 
 # from trace_rob import trace_rob, trace_rob_game
-from mgi_analytique import mgi_analytique
+# from mgi_analytique import mgi_analytique
 
 
 class Robot3RRR:
     """class of the robot 3RRR"""
-    def __init__(self, l1=0.1, l2=0.1, rb=0.1322594, re=0.07):
+    def __init__(self, l1=0.13, l2=0.15, rb=0.168, re=0.04618):
         self.clock = [0.0]
         self.l1 = l1
         self.l2 = l2
@@ -33,6 +34,55 @@ class Robot3RRR:
 
     def __repr__(self):
         return str(self)
+    
+    def mgi_analytique(self, eff):
+        """determine the inverse geometric model
+
+        Args:
+            eff (list): position of the effectors
+
+        Returns:
+            list: angles of the arms
+        """
+        rot_eff = array([[cos(eff[2]), -sin(eff[2])], [sin(eff[2]), cos(eff[2])]])
+        transl = array([eff[0], eff[1]])
+        th_eff = array([[rot_eff[0][0], rot_eff[0][1], transl[0]],
+                        [rot_eff[1][0], rot_eff[1][1], transl[1]],
+                        [0, 0, 1]])
+
+        ang1 = array([0, 2*pi/3, 4*pi/3])
+
+        ang2 = array([-pi/2, pi/6, 5*pi/6])
+
+        q = array([])
+
+        for i in range(3):
+            rot = array([[cos(ang1[i]), -sin(ang1[i])],
+                        [sin(ang1[i]), cos(ang1[i])]])
+            th = array([[rot[0][0], rot[0][1], self.rb*cos(ang2[i])],
+                        [rot[1][0], rot[1][1], self.rb*sin(ang2[i])],
+                        [0, 0, 1]])
+
+            pei_e = array([self.re*cos(ang2[i]), self.re*sin(ang2[i]), 1])
+            pei_0 = th_eff.dot(pei_e)
+
+            pei_i = np.linalg.inv(th).dot(pei_0)
+
+            x = pei_i[0]
+            y = pei_i[1]
+
+            aux = (x**2+y**2-self.l1**2-self.l2**2)/(2*self.l1*self.l2)
+            if abs(aux) < 1:
+                beta = acos(aux)
+            else:
+                beta = 0
+                print("[ERREUR] -- problème d'atteignabilité")
+                return 0
+            alpha = atan2(y, x) - atan2(self.l2*sin(beta), self.l1+self.l2*cos(beta))
+            q = np.append(q, alpha)
+            q = np.append(q, beta)
+        print(q)
+        return q
     
     def trace_rob(self, q, name):
         """trace the robot with matplotlib.pyplot
@@ -272,7 +322,7 @@ class Robot3RRR:
             elif keys[pygame.K_t]:
                 self.pen = not self.pen
 
-            new_q = mgi_analytique(new_pos_eff)
+            new_q = self.mgi_analytique(new_pos_eff)
 
             if not isinstance(new_q, int):  # if q == 0
                 self.pos_eff = new_pos_eff
@@ -297,7 +347,7 @@ if __name__ == '__main__':
     robot = Robot3RRR()
     robot.game = True
     print(robot)
-    robot.q = mgi_analytique(robot.pos_eff)
+    robot.q = robot.mgi_analytique(robot.pos_eff)
     robot.simulate()
     robot.game = False
     robot.draw()
