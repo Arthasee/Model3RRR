@@ -10,8 +10,7 @@ from mgi_analytique import mgi_analytique
 
 
 class Robot3RRR:
-    """class of the robot 3RRR
-    """
+    """class of the robot 3RRR"""
     def __init__(self, l1=0.1, l2=0.1, rb=0.1322594, re=0.07):
         self.clock = [0.0]
         self.l1 = l1
@@ -27,6 +26,7 @@ class Robot3RRR:
         self.game_dimensions = (1024, 780)
         self.scale = self.game_dimensions[0]/self.dimension[0]
         self.fps = 60
+        self.pen = True
 
     def __str__(self):
         return f"Robot(l1 = {self.l1}, l2 = {self.l2}, rb = {self.rb}, re = {self.re})"
@@ -110,15 +110,15 @@ class Robot3RRR:
         pygame.draw.line(screen, (0, 0, 0), (cx - size, cy + size), (cx + size, cy - size), 2)
         
         # Traçage de trajectoire
-        if len(self.pos) > 1:
+        if len(self.pos) > 1 and self.pen:
             for i in range(len(self.pos) - 1):
-                p1 = array(self.pos[i][:2]) * self.scale + offset2 / 2
+                # p1 = array(self.pos[i][:2]) * self.scale + offset2 / 2
                 p2 = array(self.pos[i + 1][:2]) * self.scale + offset2 / 2
-                pygame.draw.line(screen, (0, 0, 255), (p1[0], p1[1]), (p2[0], p2[1]), 2)
+                pygame.draw.circle(screen, (0, 0, 255),(p2[0], p2[1]), 1,0)
+                # pygame.draw.line(screen, (0, 0, 255), (p1[0], p1[1]), (p2[0], p2[1]), 2)
 
     def simulate(self):
-        """simulate on pygame the robot and its displacements
-        """
+        """simulate on pygame the robot and its displacements"""
         if not self.game:
             return
         pygame.init()
@@ -155,13 +155,16 @@ class Robot3RRR:
             elif keys[pygame.K_a]:
                 new_pos_eff[2] -= 0.01
                 new_pos_eff[2] = max(-1, new_pos_eff[2])
+            elif keys[pygame.K_t]:
+                self.pen = not self.pen
 
             new_q = mgi_analytique(new_pos_eff)
 
             if not isinstance(new_q, int):  # if q == 0
                 self.pos_eff = new_pos_eff
                 self.q = new_q
-                self.pos.append(self.pos_eff[:])  # trace que si valide
+                if self.pen:
+                    self.pos.append(self.pos_eff[:])  # trace que si valide
                 
             self.clock.append(self.clock[-1] + self.step)
             self.draw(screen)
@@ -171,6 +174,9 @@ class Robot3RRR:
                 self.running = False
                 pygame.quit()
                 return "fin"
+            
+    def trace_S(self):
+        pass
 
 
 if __name__ == '__main__':
