@@ -28,6 +28,7 @@ class Robot3RRR:
         self.scale = self.game_dimensions[0]/self.dimension[0]
         self.fps = 60
         self.pen = True
+        self.interpolate = False
 
     def __str__(self):
         return f"Robot(l1 = {self.l1}, l2 = {self.l2}, rb = {self.rb}, re = {self.re})"
@@ -197,6 +198,18 @@ class Robot3RRR:
                                             self.l1*sin(alpha3)+self.l2*sin(alpha3+beta3),
                                             1]))
 
+        # gamma1 = atan2(p12[1]-p11[1], p12[0] - p11[0])
+        # gamma2 = atan2(p22[1]-p21[1], p22[0] - p21[0])
+        # gamma3 = atan2(p32[1]-p31[1], p32[0] - p31[0])
+        
+        # d1 = (self.pos_eff-p12).dot(array([-sin(gamma1),cos(gamma1),1]))
+        # d2 = (self.pos_eff-p22).dot(array([-sin(gamma2),cos(gamma2),1]))
+        # d3 = (self.pos_eff-p32).dot(array([-sin(gamma3),cos(gamma3),1]))
+        
+        # e1 = np.linalg.norm((p11-p10)*(p12-p10)/np.linalg.norm(p12-p10))
+        # e2 = np.linalg.norm((p21-p20)*(p22-p20)/np.linalg.norm(p22-p20))
+        # e3 = np.linalg.norm((p31-p30)*(p32-p30)/np.linalg.norm(p32-p30))
+
         return p10, p11, p12, p20, p21, p22, p30, p31, p32
 
     def draw(self, screen=None):
@@ -275,11 +288,16 @@ class Robot3RRR:
         pygame.draw.line(screen, (0, 0, 0), (cx - size, cy + size), (cx + size, cy - size), 2)
         
         # Traçage de trajectoire
-        if len(self.pos) > 1:
+        if len(self.pos) > 1 and not self.interpolate:
             for i in range(len(self.pos) - 1):
                 # p1 = array(self.pos[i][:2]) * self.scale + offset2 / 2
                 p2 = array(self.pos[i + 1][:2]) * self.scale + offset2 / 2
                 pygame.draw.circle(screen, (0, 0, 255),(p2[0], p2[1]), 1,0)
+        elif self.interpolate:
+            for i in range(len(self.pos) - 1):
+                # p1 = array(self.pos[i][:2]) * self.scale + offset2 / 2
+                p2 = array(self.pos[i + 1][:2]) * self.scale + offset2 / 2
+                pygame.draw.line(screen, (0, 0, 255),(p2[0], p2[1]), 1,0)
 
     def simulate(self):
         """simulate on pygame the robot and its displacements"""
@@ -339,45 +357,73 @@ class Robot3RRR:
                 pygame.quit()
                 return "fin"
             
-    def trace_square(self):
-        """Fait tracer la lettre 'A' au robot 3RRR en mode matplotlib"""
+    def interpolate_path(self, points, n_steps=50):
+        
+        self.interpolate = True
+
+        if not self.game:
+            return
+        pygame.init()
+        screen = pygame.display.set_mode(self.game_dimensions)
+        clock = pygame.time.Clock()
+
+        for i in range(len(points) - 1):
+            pygame.event.pump()
+
+            screen.fill((255, 255, 255))
+
+            p_start = np.array(points[i])
+            p_end = np.array(points[i + 1])
+            for t in np.linspace(0, 1, n_steps):
+                p_interp = (1 - t) * p_start + t * p_end
+                
+                new_q = self.mgi_analytique(p_interp)
+
+                if not isinstance(new_q, int):  # if q == 0
+                    self.pos_eff = p_interp
+                    self.q = new_q
+                    if self.pen:
+                        self.pos.append(self.pos_eff[:])  # trace que si valide
+                
+                clock.tick(self.fps)
+                self.clock.append(self.clock[-1] + self.step)
+                self.draw(screen)
+                pygame.display.flip()
+
+            self.interpolate = False
+
+            
+    def trace_square(self, height = 0.1):
+        """Fait tracer un carré au robot 3RRR en mode matplotlib"""
 
         square_points = [
-            [0.05, 0.05, 0],
-            [0.15, 0.05, 0],
-            [0.15, 0.15, 0],
-            [0.05, 0.15, 0],
-            [0.05, 0.05, 0]  # Retour au point de départ
+            [-height, -height, 0],
+            [ height, -height, 0],
+            [ height,  height, 0],
+            [-height,  height, 0],
+            [-height, -height, 0],  # retour au début
         ]
 
-        self.pos = []  # Vide la trajectoire précédente
+        self.pos = []
         self.pen = True
 
-        for pos in square_points:
-            q = self.mgi_analytique(pos)
-            if isinstance(q, int):  # Si non atteignable
-                print(f"[!] Point non atteignable : {pos}")
-                continue
-            self.q = q
-            self.pos_eff = pos
-            self.pos.append(pos)
-
-        self.draw()
-
+        self.interpolate_path(square_points, n_steps=50)
 
 if __name__ == '__main__':
 
     test_control = False
     test_square = True
 
+    robot = Robot3RRR()
+
     if test_control:
-        robot = Robot3RRR()
         robot.game = True
-        print(robot)
         robot.q = robot.mgi_analytique(robot.pos_eff)
         robot.simulate()
         robot.game = False
         robot.draw()
 
     elif test_square:
-        
+        robot.game = True
+        robot.q = robot.mgi_analytique(robot.pos_eff)
+        robot.trace_square()
