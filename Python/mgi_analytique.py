@@ -3,12 +3,6 @@
 from numpy import pi, array, cos, sin, acos, atan2
 import numpy as np
 
-L1 = 0.10
-L2 = 0.10
-RB = 0.1322594
-RE = 0.07
-
-
 def mgi_analytique(eff):
     """determine the inverse geometric model
 

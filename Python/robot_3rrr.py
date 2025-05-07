@@ -72,7 +72,7 @@ class Robot3RRR:
             y = pei_i[1]
 
             aux = (x**2+y**2-self.l1**2-self.l2**2)/(2*self.l1*self.l2)
-            if abs(aux) < 1:
+            if abs(aux) <= 1:
                 beta = acos(aux)
             else:
                 beta = 0
@@ -338,13 +338,46 @@ class Robot3RRR:
                 self.running = False
                 pygame.quit()
                 return "fin"
+            
+    def trace_square(self):
+        """Fait tracer la lettre 'A' au robot 3RRR en mode matplotlib"""
+
+        square_points = [
+            [0.05, 0.05, 0],
+            [0.15, 0.05, 0],
+            [0.15, 0.15, 0],
+            [0.05, 0.15, 0],
+            [0.05, 0.05, 0]  # Retour au point de départ
+        ]
+
+        self.pos = []  # Vide la trajectoire précédente
+        self.pen = True
+
+        for pos in square_points:
+            q = self.mgi_analytique(pos)
+            if isinstance(q, int):  # Si non atteignable
+                print(f"[!] Point non atteignable : {pos}")
+                continue
+            self.q = q
+            self.pos_eff = pos
+            self.pos.append(pos)
+
+        self.draw()
 
 
 if __name__ == '__main__':
-    robot = Robot3RRR()
-    robot.game = True
-    print(robot)
-    robot.q = robot.mgi_analytique(robot.pos_eff)
-    robot.simulate()
-    robot.game = False
-    robot.draw()
+
+    test_control = False
+    test_square = True
+
+    if test_control:
+        robot = Robot3RRR()
+        robot.game = True
+        print(robot)
+        robot.q = robot.mgi_analytique(robot.pos_eff)
+        robot.simulate()
+        robot.game = False
+        robot.draw()
+
+    elif test_square:
+        
