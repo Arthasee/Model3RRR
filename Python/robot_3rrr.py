@@ -4,6 +4,7 @@ import numpy as np
 from numpy import pi, array, cos, sin, atan2, sqrt, acos
 import matplotlib.pyplot as plt
 import pygame
+from singularity import *
 import pygame.locals
 
 # from trace_rob import trace_rob, trace_rob_game
@@ -201,9 +202,6 @@ class Robot3RRR:
         gamma1 = atan2(p12[1]-p11[1], p12[0] - p11[0])
         gamma2 = atan2(p22[1]-p21[1], p22[0] - p21[0])
         gamma3 = atan2(p32[1]-p31[1], p32[0] - p31[0])
-        gamma1 = atan2(p12[1]-p11[1], p12[0] - p11[0])
-        gamma2 = atan2(p22[1]-p21[1], p22[0] - p21[0])
-        gamma3 = atan2(p32[1]-p31[1], p32[0] - p31[0])
         
         np12 = np.array([p12[0], p12[1], 0])
         np10 = np.array([p10[0], p10[1], 0])
@@ -216,16 +214,21 @@ class Robot3RRR:
         d1 = (self.pos_eff-p12).dot(array([-sin(gamma1),cos(gamma1),1]))
         d2 = (self.pos_eff-p22).dot(array([-sin(gamma2),cos(gamma2),1]))
         d3 = (self.pos_eff-p32).dot(array([-sin(gamma3),cos(gamma3),1]))
-        d1 = (self.pos_eff-p12).dot(array([-sin(gamma1),cos(gamma1),1]))
-        d2 = (self.pos_eff-p22).dot(array([-sin(gamma2),cos(gamma2),1]))
-        d3 = (self.pos_eff-p32).dot(array([-sin(gamma3),cos(gamma3),1]))
         
         e1 = np.linalg.norm((p11-np10)*(np12-np10)/np.linalg.norm(np12-np10))
         e2 = np.linalg.norm((p21-np20)*(np22-np20)/np.linalg.norm(np22-np20))
         e3 = np.linalg.norm((p31-np30)*(np32-np30)/np.linalg.norm(np32-np30))
-        e1 = np.linalg.norm((p11-np10)*(np12-np10)/np.linalg.norm(p12-p10))
-        e2 = np.linalg.norm((p21-p20)*(p22-p20)/np.linalg.norm(p22-p20))
-        e3 = np.linalg.norm((p31-p30)*(p32-p30)/np.linalg.norm(p32-p30))
+
+        detA = det_A(gamma1, gamma2, gamma3, d1, d2, d3)
+        detB = det_B(e1, e2, e3)
+        
+        if detA == 0:
+            if gamma1/pi == gamma2/pi and gamma2/pi == gamma3/pi:
+                print(f"Singularité parallèle, les trois droites sont parallèles.")
+            else:
+                print(f"Singularité parallèle, les trois droites sont concourantes")
+        if detB == 0:
+            print(f"Singularité série, le bras 3 est à la limite de son espace de travail")
 
         return p10, p11, p12, p20, p21, p22, p30, p31, p32
 
@@ -451,9 +454,9 @@ class Robot3RRR:
 
 if __name__ == '__main__':
 
-    test_control = 0
+    test_control = 1
     test_square = 0
-    test_circle = 1
+    test_circle = 0
 
     robot = Robot3RRR()
 

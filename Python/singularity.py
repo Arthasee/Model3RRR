@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def det_A(g1, g2, g3, d1, d2, d3):
 
     A = np.zeros((3, 3))
@@ -9,9 +10,10 @@ def det_A(g1, g2, g3, d1, d2, d3):
 
     return np.linalg.det(A)
 
-def B(e1, e2, e3):
 
-    B = np.zeros(3)
+def det_B(e1, e2, e3):
+
+    B = np.zeros((3,3))
     B[0,0] = e1
     B[1,1] = e2
     B[2,2] = e3
