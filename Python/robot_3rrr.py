@@ -452,11 +452,20 @@ class Robot3RRR:
 
         self.interpolate_path(circle_points, n_steps = n_steps, fps = fps)
 
+    def trace_polygone(self, points_list, n_steps = 100, fps = 30):
+        """Trace un polygone"""
+
+        self.pos = []
+        self.pen = True
+
+        self.interpolate_path(points_list, n_steps = n_steps, fps = fps)
+
 if __name__ == '__main__':
 
-    test_control = 1
+    test_control = 0
     test_square = 0
     test_circle = 0
+    test_polygone = 1
 
     robot = Robot3RRR()
 
@@ -471,6 +480,11 @@ if __name__ == '__main__':
         robot.game = True
         robot.trace_square()    #Rester appuyé sur échap pour quitter
 
-    elif test_circle:
+    if test_circle:
         robot.game = True
         robot.trace_circle()    #Rester appuyé sur échap pour quitter
+
+    if test_polygone:
+        robot.game = True
+        points_list = [[0,0,0],[-0.03,0.06,0],[0.08,-0.02,2.1],[-0.01,-0.04,1.3],[0,0,0]]
+        robot.trace_polygone(points_list=points_list)    #Rester appuyé sur échap pour quitter
