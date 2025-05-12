@@ -198,26 +198,34 @@ class Robot3RRR:
                                             self.l1*sin(alpha3)+self.l2*sin(alpha3+beta3),
                                             1]))
 
-        # gamma1 = atan2(p12[1]-p11[1], p12[0] - p11[0])
-        # gamma2 = atan2(p22[1]-p21[1], p22[0] - p21[0])
-        # gamma3 = atan2(p32[1]-p31[1], p32[0] - p31[0])
-        # gamma1 = atan2(p12[1]-p11[1], p12[0] - p11[0])
-        # gamma2 = atan2(p22[1]-p21[1], p22[0] - p21[0])
-        # gamma3 = atan2(p32[1]-p31[1], p32[0] - p31[0])
+        gamma1 = atan2(p12[1]-p11[1], p12[0] - p11[0])
+        gamma2 = atan2(p22[1]-p21[1], p22[0] - p21[0])
+        gamma3 = atan2(p32[1]-p31[1], p32[0] - p31[0])
+        gamma1 = atan2(p12[1]-p11[1], p12[0] - p11[0])
+        gamma2 = atan2(p22[1]-p21[1], p22[0] - p21[0])
+        gamma3 = atan2(p32[1]-p31[1], p32[0] - p31[0])
         
-        # d1 = (self.pos_eff-p12).dot(array([-sin(gamma1),cos(gamma1),1]))
-        # d2 = (self.pos_eff-p22).dot(array([-sin(gamma2),cos(gamma2),1]))
-        # d3 = (self.pos_eff-p32).dot(array([-sin(gamma3),cos(gamma3),1]))
-        # d1 = (self.pos_eff-p12).dot(array([-sin(gamma1),cos(gamma1),1]))
-        # d2 = (self.pos_eff-p22).dot(array([-sin(gamma2),cos(gamma2),1]))
-        # d3 = (self.pos_eff-p32).dot(array([-sin(gamma3),cos(gamma3),1]))
+        np12 = np.array([p12[0], p12[1], 0])
+        np10 = np.array([p10[0], p10[1], 0])
+        np22 = np.array([p22[0], p22[1], 0])
+        np20 = np.array([p20[0], p20[1], 0])
+        np32 = np.array([p32[0], p32[1], 0])
+        np30 = np.array([p30[0], p30[1], 0])
         
-        # e1 = np.linalg.norm((p11-p10)*(p12-p10)/np.linalg.norm(p12-p10))
-        # e2 = np.linalg.norm((p21-p20)*(p22-p20)/np.linalg.norm(p22-p20))
-        # e3 = np.linalg.norm((p31-p30)*(p32-p30)/np.linalg.norm(p32-p30))
-        # e1 = np.linalg.norm((p11-p10)*(p12-p10)/np.linalg.norm(p12-p10))
-        # e2 = np.linalg.norm((p21-p20)*(p22-p20)/np.linalg.norm(p22-p20))
-        # e3 = np.linalg.norm((p31-p30)*(p32-p30)/np.linalg.norm(p32-p30))
+        
+        d1 = (self.pos_eff-p12).dot(array([-sin(gamma1),cos(gamma1),1]))
+        d2 = (self.pos_eff-p22).dot(array([-sin(gamma2),cos(gamma2),1]))
+        d3 = (self.pos_eff-p32).dot(array([-sin(gamma3),cos(gamma3),1]))
+        d1 = (self.pos_eff-p12).dot(array([-sin(gamma1),cos(gamma1),1]))
+        d2 = (self.pos_eff-p22).dot(array([-sin(gamma2),cos(gamma2),1]))
+        d3 = (self.pos_eff-p32).dot(array([-sin(gamma3),cos(gamma3),1]))
+        
+        e1 = np.linalg.norm((p11-np10)*(np12-np10)/np.linalg.norm(np12-np10))
+        e2 = np.linalg.norm((p21-np20)*(np22-np20)/np.linalg.norm(np22-np20))
+        e3 = np.linalg.norm((p31-np30)*(np32-np30)/np.linalg.norm(np32-np30))
+        e1 = np.linalg.norm((p11-np10)*(np12-np10)/np.linalg.norm(p12-p10))
+        e2 = np.linalg.norm((p21-p20)*(p22-p20)/np.linalg.norm(p22-p20))
+        e3 = np.linalg.norm((p31-p30)*(p32-p30)/np.linalg.norm(p32-p30))
 
         return p10, p11, p12, p20, p21, p22, p30, p31, p32
 
