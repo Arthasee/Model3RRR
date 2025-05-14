@@ -283,6 +283,8 @@ Notre simulation permet de controller l'effecteur via les touches de notre clavi
 \end{itemize}
 
 Notre méthode \textit{interpolate\_path} prend les points de la figure (par exemple les quatres points du carré) et fait une interpolation entre ces points afin que le robot suive la bonne courbe.
+
+Lors du calcul de la position, nous prenons en compte les singularités possibles du robot. Si nous sommes dans le cas de la singularité série, le robot se bloque dans la direction limité uniquement. Pour les singular
 \section{Réalisation}
 
 \section*{Conclusion}
