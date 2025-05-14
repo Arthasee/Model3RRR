@@ -257,7 +257,7 @@ Enfin, nous effectuons l'assemblage du robot en utilisant des contraintes standa
     \begin{subfigure}[t]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Figures/singularité parallèle.png}
-        \caption{Singularité parallèle (droites parallèles)}}
+        \caption{Singularité parallèle (droites parallèles)}
     \end{subfigure}
     \begin{subfigure}[t]{0.48\textwidth}
         \centering
@@ -271,7 +271,18 @@ Enfin, nous effectuons l'assemblage du robot en utilisant des contraintes standa
 On propose 3 captures d'écrans des 3 différentes singularités sur la figure \ref{fig:singularity}.
 
 \section{Simulation}
+Afin de simuler le robot, nous avions accès à des codes en MatLab. Ces codes permettent de calculer le modèle géométrique inverse de façon analytique et numérique, ainsi qu'une fonction permettant de tracer la configuration de l'appareil.
 
+Notre première étape fut de transformer ces codes sous Python afin de les utiliser dans notre simulation. Pour celle-ci, nous avons utilisé la bibliothèque PyGame, qui permet d'afficher des éléments graphiques avec de l'animation. Par simplicité, nous avons créé une classe Robot3RRR pour tous les calculs nécessaire à la simulation.
+
+Notre simulation permet de controller l'effecteur via les touches de notre clavier, mais aussi de dessiner des formes prédéfinis :
+\begin{itemize}
+    \item un carré
+    \item un cercle
+    \item un polynôme quelconque
+\end{itemize}
+
+Notre méthode \textit{interpolate\_path} prend les points de la figure (par exemple les quatres points du carré) et fait une interpolation entre ces points afin que le robot suive la bonne courbe.
 \section{Réalisation}
 
 \section*{Conclusion}
