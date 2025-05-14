@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.13)  14 MAY 2025 14:57
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.5.13)  14 MAY 2025 15:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -851,6 +851,16 @@ File: Figures/singularité parallèle.png Graphic file (type png)
 <use Figures/singularité parallèle.png>
 Package pdftex.def Info: Figures/singularité parallèle.png  used on input line 259.
 (pdftex.def)             Requested size: 172.79846pt x 148.33662pt.
+
+! Extra }, or forgotten \endgroup.
+l.260 ...arité parallèle (droites parallèles)}}
+                                                  
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
 <Figures/singularite parallele concourante.png, id=112, 369.17924pt x 340.8735pt>
 File: Figures/singularite parallele concourante.png Graphic file (type png)
 <use Figures/singularite parallele concourante.png>
@@ -869,12 +879,8 @@ Package pdftex.def Info: Figures/singularite parallele concourante.png  used on 
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-04-14>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 86BB5CC222D9F8CF1C656E0145248B88;1330.
+(rerunfilecheck)             Checksum: 545DFCDE3D7A1BCE837A7EC2073D1A43;1335.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
@@ -888,7 +894,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  75i,8n,79p,868b,1953s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/SAGNE/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/SAGNE/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.pfb><C:/Users/SAGNE/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/SAGNE/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr12.pfb><C:/Users/SAGNE/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr17.pfb><C:/Users/SAGNE/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri10.pfb><C:/Users/SAGNE/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmri12.pfb>
-Output written on main.pdf (6 pages, 1134734 bytes).
+Output written on main.pdf (6 pages, 1134836 bytes).
 PDF statistics:
  176 PDF objects out of 1000 (max. 8388607)
  25 named destinations out of 1000 (max. 500000)
