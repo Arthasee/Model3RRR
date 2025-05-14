@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import pygame
 from singularity import *
 import pygame.locals
+import math
 
 # from trace_rob import trace_rob, trace_rob_game
 # from mgi_analytique import mgi_analytique
@@ -83,7 +84,10 @@ class Robot3RRR:
             alpha = atan2(y, x) - atan2(self.l2*sin(beta), self.l1+self.l2*cos(beta))
             q = np.append(q, alpha)
             q = np.append(q, beta)
+<<<<<<< HEAD
+=======
         # print(self.pos)
+>>>>>>> 1c11699fa3034bcafed56f3be6b017f028ff5869
         return q
 
     def trace_rob(self, q, name):
@@ -413,20 +417,19 @@ class Robot3RRR:
 
         running = True
         while running:
+            keys = pygame.key.get_pressed()
             for i in range(len(points) - 1):
-                pygame.event.pump()
-                keys = pygame.key.get_pressed()
-
                 p_start = np.array(points[i])
                 p_end = np.array(points[i + 1])
+
+                # Optimiser l'orientation pour le point de départ et le point d'arrivée
+                start_orientation = self.optimize_orientation(p_start)
+                end_orientation = self.optimize_orientation(p_end)
+
                 for t in np.linspace(0, 1, n_steps):
-
-                    if keys[pygame.K_ESCAPE] or keys[pygame.K_SPACE]:
-                        running = False
-                        pygame.quit()
-                        return "fin"
-
                     p_interp = (1 - t) * p_start + t * p_end
+                    # Interpoler l'orientation
+                    p_interp[2] = (1 - t) * start_orientation + t * end_orientation
 
                     new_q = self.mgi_analytique(p_interp)
 
@@ -442,8 +445,51 @@ class Robot3RRR:
                     self.draw(screen)
                     pygame.display.flip()
 
+                    if keys[pygame.K_ESCAPE] or keys[pygame.K_SPACE]:
+                        running = False
+                        pygame.quit()
+                        return "fin"
+
         self.interpolate = False
         self.fps = 60
+
+    def optimize_orientation(self, pos_eff):
+        best_orientation = pos_eff[2]
+        error = False
+
+        orientation = pos_eff[2]
+        q = self.mgi_analytique(pos_eff)
+        if isinstance(q, int):
+            print("[ERREUR] -- problème d'atteignabilité")
+            error = True
+
+        p10, p11, p12, p20, p21, p22, p30, p31, p32 = self.trace_rob_game(q)
+
+        gamma1 = atan2(p12[1]-p11[1], p12[0] - p11[0])
+        gamma2 = atan2(p22[1]-p21[1], p22[0] - p21[0])
+        gamma3 = atan2(p32[1]-p31[1], p32[0] - p31[0])
+
+        d1 = (self.pos_eff-p12).dot(array([-sin(gamma1),cos(gamma1),1]))
+        d2 = (self.pos_eff-p22).dot(array([-sin(gamma2),cos(gamma2),1]))
+        d3 = (self.pos_eff-p32).dot(array([-sin(gamma3),cos(gamma3),1]))
+
+        detA = abs(det_A(gamma1, gamma2, gamma3, d1, d2, d3))
+
+        kp = 0.2
+        ecart = kp*(abs(detA - orientation))
+        distance1 = detA - (orientation + ecart)
+        distance2 = detA - (orientation - ecart)
+
+        # On prend l'orientation de telle sorte que la position soit la plus loin des singularités
+        if error:
+            best_orientation = orientation
+        elif distance1 < distance2:
+            best_orientation = orientation - ecart
+        else:
+            best_orientation = orientation + ecart
+
+
+        return best_orientation
 
     def trace_square(self, height=0.07, n_steps=100, fps=60):
         """Trace un carré"""
@@ -475,6 +521,20 @@ class Robot3RRR:
 
         self.interpolate_path(circle_points, n_steps=n_steps, fps=fps)
 
+    def trace_trefle(self, gain = 0.02, N=100, n_steps=10, fps=60):
+        """Trace un trèfle"""
+        trefle_points = []
+
+        trefle = np.linspace(0, 2 * pi, N)
+
+        for t in trefle:
+            r = gain * (1 + np.cos(4 * t) + 2 * (np.sin(4 * t))**2)
+            x = r * np.cos(t)
+            y = r * np.sin(t)
+            trefle_points.append([x, y, 0])
+
+        self.interpolate_path(trefle_points, n_steps=n_steps, fps=fps)
+
     def trace_polygone(self, points_list, n_steps=100, fps=30):
         """Trace un polygone"""
 
@@ -489,26 +549,27 @@ if __name__ == '__main__':
     test_control = 1
     test_square = 0
     test_circle = 0
+    test_trefle = 0
     test_polygone = 0
 
     robot = Robot3RRR()
+    robot.game = True
 
     if test_control:
-        robot.game = True
         robot.q = robot.mgi_analytique(robot.pos_eff)
         robot.simulate()
         robot.game = False
         robot.draw()
 
     if test_square:
-        robot.game = True
         robot.trace_square()    # Rester appuyé sur échap pour quitter
 
     if test_circle:
-        robot.game = True
         robot.trace_circle()    # Rester appuyé sur échap pour quitter
 
+    if test_trefle:
+        robot.trace_trefle()    # Rester appuyé sur échap pour quitter
+
     if test_polygone:
-        robot.game = True
-        points_list = [[0, 0, 0], [-0.03, 0.06, 0], [0.08, -0.02, 2.1], [-0.01, -0.04, 1.3], [0, 0, 0]]
+        points_list = [[0, 0, 0], [-0.03, 0.06, 0], [0.08, -0.02, 0], [-0.01, -0.04, 0], [0, 0, 0]]
         robot.trace_polygone(points_list=points_list)    # Rester appuyé sur échap pour quitter
