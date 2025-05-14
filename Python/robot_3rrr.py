@@ -83,7 +83,7 @@ class Robot3RRR:
             alpha = atan2(y, x) - atan2(self.l2*sin(beta), self.l1+self.l2*cos(beta))
             q = np.append(q, alpha)
             q = np.append(q, beta)
-        print(q)
+        print(self.pos)
         return q
 
     def trace_rob(self, q, name):
@@ -139,13 +139,22 @@ class Robot3RRR:
                                             1]))
 
         f = plt.figure(name)
-        plt.plot([p10[0], p11[0], p12[0]], [p10[1], p11[1], p12[1]])
-        plt.plot([p20[0], p21[0], p22[0]], [p20[1], p21[1], p22[1]])
-        plt.plot([p30[0], p31[0], p32[0]], [p30[1], p31[1], p32[1]])
+        plt.plot([p10[0], p11[0], p12[0]], [-p10[1], -p11[1], -p12[1]])
+        plt.plot([p20[0], p21[0], p22[0]], [-p20[1], -p21[1], -p22[1]])
+        plt.plot([p30[0], p31[0], p32[0]], [-p30[1], -p31[1], -p32[1]])
         plt.plot([p12[0], p22[0], p32[0], p12[0]],
-                [p12[1], p22[1], p32[1], p12[1]], linewidth=2)
+                [-p12[1], -p22[1], -p32[1], -p12[1]], linewidth=2)
+        x_array = []
+        y_array = []
+        for i in range(len(self.pos)):
+            x_array.append(self.pos[i][0])
+            y_array.append(- self.pos[i][1])
+        plt.plot(x_array, y_array,'.b')
         plt.axis("square")
         plt.axis("equal")
+        plt.xlabel("x")
+        plt.ylabel("y")
+        plt.title("Dernière position du robot et trajectoire")
         # plt.show()
         return f
 
@@ -225,9 +234,9 @@ class Robot3RRR:
             if gamma1/pi == gamma2/pi and gamma2/pi == gamma3/pi:
                 print("Singularité parallèle, les trois droites sont parallèles.")
             else:
-                print("Singularité parallèle, les trois droites sont concourantes")
+                print("Singularité parallèle, les trois droites sont concourantes.")
         if detB == 0:
-            print("Singularité série, le bras 3 est à la limite de son espace de travail")
+            print("Singularité série, le bras 3 est à la limite de son espace de travail.")
 
         return p10, p11, p12, p20, p21, p22, p30, p31, p32
 
@@ -318,6 +327,22 @@ class Robot3RRR:
                 p2 = array(self.pos[i + 1][:2]) * self.scale + offset2 / 2
                 pygame.draw.line(screen, (0, 0, 255),(p1[0], p1[1]),(p2[0], p2[1]), 2)
 
+        # Affichage des commandes
+        if not self.interpolate:
+            font = pygame.font.SysFont("Arial", 16)
+            commands = [
+                "Commandes:",
+                "'A' : Rotation sens trigonométrique",
+                "'E' : Rotation sens horaire",
+                "ZQSD : Déplacement",
+                "'T' - Crayon ON/OFF",
+                "'Esc' ou 'SPACE' - Quitter",
+            ]
+
+            for i, line in enumerate(commands):
+                text_surface = font.render(line, True, (0, 0, 0))
+                screen.blit(text_surface, (10, 10 + i * 20))  # position verticale espacée
+
     def simulate(self):
         """simulate on pygame the robot and its displacements"""
         if not self.game:
@@ -378,7 +403,7 @@ class Robot3RRR:
 
     def interpolate_path(self, points, n_steps=50, fps=30):
         self.interpolate = True
-        self.fps = fps  
+        self.fps = fps
 
         if not self.game:
             return
@@ -462,9 +487,9 @@ class Robot3RRR:
 if __name__ == '__main__':
 
     test_control = 0
-    test_square = 0
+    test_square = 1
     test_circle = 0
-    test_polygone = 1
+    test_polygone = 0
 
     robot = Robot3RRR()
 
