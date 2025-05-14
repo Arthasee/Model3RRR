@@ -478,13 +478,13 @@ if __name__ == '__main__':
 
     if test_square:
         robot.game = True
-        robot.trace_square()    #Rester appuyé sur échap pour quitter
+        robot.trace_square()    # Rester appuyé sur échap pour quitter
 
     if test_circle:
         robot.game = True
-        robot.trace_circle()    #Rester appuyé sur échap pour quitter
+        robot.trace_circle()    # Rester appuyé sur échap pour quitter
 
     if test_polygone:
         robot.game = True
-        points_list = [[0,0,0],[-0.03,0.06,0],[0.08,-0.02,2.1],[-0.01,-0.04,1.3],[0,0,0]]
-        robot.trace_polygone(points_list=points_list)    #Rester appuyé sur échap pour quitter
+        points_list = [[0, 0, 0], [-0.03, 0.06, 0], [0.08, -0.02, 2.1], [-0.01, -0.04, 1.3], [0, 0, 0]]
+        robot.trace_polygone(points_list=points_list)    # Rester appuyé sur échap pour quitter
