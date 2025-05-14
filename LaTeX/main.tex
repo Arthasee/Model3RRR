@@ -179,6 +179,7 @@ en s'assurant de garder des distances de l'ordre de la dizaine de centimètre ; 
     \caption{Allègement des bras du robot}
     \label{fig:bras}
 \end{figure}
+
 Dans un premier temps, nous concevons les bras qui composent le robot pour décider de la taille générale de la maquette.
 Également, il est question de minimiser la quantité de matériaux utilisée pour les différentes pièces dans l'objectif de réduire le coût d'impression 3D.
 Nous opérons donc une optimisation topologique sur les différents bras en effectuant des allègements, comme nous pouvons le voir sur la figure \ref{fig:bras}, 
@@ -222,8 +223,7 @@ Nous ajoutons également un trou au centre pour acceuillir un stylo que l'on ser
 \end{figure}
 Quant aux moteurs, nous avons importé le cerveau moteur de type AX12 de Dynamixel que nous fixerons au bras grâce à quatre vis M2, comme nous pouvons le voir sur la figure \ref{fig:moteur}.
 
-\subsection{Assemblages}
-
+\subsection{Assemblage}
 
 \begin{figure}[!tbh]
     \centering
@@ -243,6 +243,33 @@ Quant aux moteurs, nous avons importé le cerveau moteur de type AX12 de Dynamix
 \end{figure}
 
 Enfin, nous effectuons l'assemblage du robot en utilisant des contraintes standards de coaxialité et de coïncidence pour les vis, et des liaisons pivots entre les bras et l'effecteur. Nous accrochons ensuite les moteurs à une base fixe pour que ces derniers restent immobiles, comme illustré sur la figure \ref{fig:assemblage}.
+
+\subsection{Singularité}
+
+\begin{figure}[!tbh]
+    \centering
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/singularité série.png}
+        \caption{Assemblage du robot}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/singularité parallèle.png}
+        \caption{Assemblage après mouvement}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{Figures/singularite parallele concourante.png}
+        \caption{Assemblage après mouvement}
+    \end{subfigure}
+    \caption{Singularite série et parallèles}
+    \label{fig:singularity}
+\end{figure}
+
+On propose 3 captures d'écrans des 3 différentes singularités sur la figure \ref{fig:singularity}.
+
 \section{Simulation}
 
 \section{Réalisation}

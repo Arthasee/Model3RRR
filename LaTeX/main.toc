@@ -1,0 +1,13 @@
+\babel@toc {french}{}\relax 
+\babel@toc {french}{}\relax 
+\contentsline {section}{Introduction}{2}{section*.2}%
+\contentsline {section}{\numberline {I}Conception}{2}{section.0.1}%
+\contentsline {subsection}{\numberline {I.1}Bras du robot}{2}{subsection.0.1.1}%
+\contentsline {subsection}{\numberline {I.2}Effecteur}{3}{subsection.0.1.2}%
+\contentsline {subsection}{\numberline {I.3}Moteur}{3}{subsection.0.1.3}%
+\contentsline {subsection}{\numberline {I.4}Assemblage}{4}{subsection.0.1.4}%
+\contentsline {subsection}{\numberline {I.5}Singularité}{4}{subsection.0.1.5}%
+\contentsline {section}{\numberline {II}Simulation}{5}{section.0.2}%
+\contentsline {section}{\numberline {III}Réalisation}{5}{section.0.3}%
+\contentsline {section}{Conclusion}{5}{section*.8}%
+\contentsline {section}{Bibliographie}{6}{section*.8}%

@@ -1,5 +1,5 @@
 % $ biblatex auxiliary file $
-% $ biblatex bbl format version 3.2 $
+% $ biblatex bbl format version 3.3 $
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
@@ -18,8 +18,8 @@
 
 
 \refsection{0}
-  \datalist[entry]{none/global//global/global}
-    \entry{hamdoun_inverse_2015}{article}{}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{hamdoun_inverse_2015}{article}{}{}
       \name{author}{1}{}{%
         {{hash=7b5290450627c20b096f9d968825616d}{%
            family={Hamdoun},
@@ -38,15 +38,18 @@
       }
       \strng{namehash}{7b5290450627c20b096f9d968825616d}
       \strng{fullhash}{7b5290450627c20b096f9d968825616d}
+      \strng{fullhashraw}{7b5290450627c20b096f9d968825616d}
       \strng{bibnamehash}{7b5290450627c20b096f9d968825616d}
       \strng{authorbibnamehash}{7b5290450627c20b096f9d968825616d}
       \strng{authornamehash}{7b5290450627c20b096f9d968825616d}
       \strng{authorfullhash}{7b5290450627c20b096f9d968825616d}
+      \strng{authorfullhashraw}{7b5290450627c20b096f9d968825616d}
       \strng{editorbibnamehash}{4e115309fe2e5c8b0c93ed9b9fef4313}
       \strng{editornamehash}{4e115309fe2e5c8b0c93ed9b9fef4313}
       \strng{editorfullhash}{4e115309fe2e5c8b0c93ed9b9fef4313}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \strng{editorfullhashraw}{4e115309fe2e5c8b0c93ed9b9fef4313}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{This work presents a kinematic study of 3 RRR parallel robot. Indeed, Parallel robot is fundamentally a closed-loop kinematic chain mechanism in which the end-effector is connected to the base by several independent kinematic chains. Due to the potential advantages of parallel robots such as high rigidity, high accuracy and great carrying payload capability, they have fascinated signi?cant attention and interest amongst the researchers in the past decade. After describing the mechanism, a kinematic model is established. Based on the geometry of the manipulator, a workspace analysis is performed in order to define a trajectory planning of the manipulator.}
