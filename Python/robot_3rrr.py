@@ -223,11 +223,11 @@ class Robot3RRR:
 
         if detA == 0:
             if gamma1/pi == gamma2/pi and gamma2/pi == gamma3/pi:
-                print(f"Singularité parallèle, les trois droites sont parallèles.")
+                print("Singularité parallèle, les trois droites sont parallèles.")
             else:
-                print(f"Singularité parallèle, les trois droites sont concourantes")
+                print("Singularité parallèle, les trois droites sont concourantes")
         if detB == 0:
-            print(f"Singularité série, le bras 3 est à la limite de son espace de travail")
+            print("Singularité série, le bras 3 est à la limite de son espace de travail")
 
         return p10, p11, p12, p20, p21, p22, p30, p31, p32
 
