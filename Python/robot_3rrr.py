@@ -84,6 +84,10 @@ class Robot3RRR:
             alpha = atan2(y, x) - atan2(self.l2*sin(beta), self.l1+self.l2*cos(beta))
             q = np.append(q, alpha)
             q = np.append(q, beta)
+<<<<<<< HEAD
+=======
+        # print(self.pos)
+>>>>>>> 1c11699fa3034bcafed56f3be6b017f028ff5869
         return q
 
     def trace_rob(self, q, name):
@@ -230,7 +234,7 @@ class Robot3RRR:
         detA = det_A(gamma1, gamma2, gamma3, d1, d2, d3)
         detB = det_B(e1, e2, e3)
 
-        if detA == 0:
+        if -0.1 <= detA <= 0.1:
             if gamma1/pi == gamma2/pi and gamma2/pi == gamma3/pi:
                 print("Singularité parallèle, les trois droites sont parallèles.")
             else:
@@ -542,8 +546,8 @@ class Robot3RRR:
 
 if __name__ == '__main__':
 
-    test_control = 0
-    test_square = 1
+    test_control = 1
+    test_square = 0
     test_circle = 0
     test_trefle = 0
     test_polygone = 0
