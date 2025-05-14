@@ -202,33 +202,32 @@ class Robot3RRR:
         gamma1 = atan2(p12[1]-p11[1], p12[0] - p11[0])
         gamma2 = atan2(p22[1]-p21[1], p22[0] - p21[0])
         gamma3 = atan2(p32[1]-p31[1], p32[0] - p31[0])
-        
+
         np12 = np.array([p12[0], p12[1], 0])
         np10 = np.array([p10[0], p10[1], 0])
         np22 = np.array([p22[0], p22[1], 0])
         np20 = np.array([p20[0], p20[1], 0])
         np32 = np.array([p32[0], p32[1], 0])
         np30 = np.array([p30[0], p30[1], 0])
-        
-        
+
         d1 = (self.pos_eff-p12).dot(array([-sin(gamma1),cos(gamma1),1]))
         d2 = (self.pos_eff-p22).dot(array([-sin(gamma2),cos(gamma2),1]))
         d3 = (self.pos_eff-p32).dot(array([-sin(gamma3),cos(gamma3),1]))
-        
+
         e1 = np.linalg.norm((p11-np10)*(np12-np10)/np.linalg.norm(np12-np10))
         e2 = np.linalg.norm((p21-np20)*(np22-np20)/np.linalg.norm(np22-np20))
         e3 = np.linalg.norm((p31-np30)*(np32-np30)/np.linalg.norm(np32-np30))
 
         detA = det_A(gamma1, gamma2, gamma3, d1, d2, d3)
         detB = det_B(e1, e2, e3)
-        
+
         if detA == 0:
             if gamma1/pi == gamma2/pi and gamma2/pi == gamma3/pi:
-                print(f"Singularité parallèle, les trois droites sont parallèles.")
+                print("Singularité parallèle, les trois droites sont parallèles.")
             else:
-                print(f"Singularité parallèle, les trois droites sont concourantes")
+                print("Singularité parallèle, les trois droites sont concourantes")
         if detB == 0:
-            print(f"Singularité série, le bras 3 est à la limite de son espace de travail")
+            print("Singularité série, le bras 3 est à la limite de son espace de travail")
 
         return p10, p11, p12, p20, p21, p22, p30, p31, p32
 
@@ -299,14 +298,14 @@ class Robot3RRR:
                                        [(p12[0], p12[1]),
                                         (p22[0], p22[1]),
                                         (p32[0], p32[1])])
-        
+
         # Croix au centre du triangle
         cx = (p12[0] + p22[0] + p32[0]) / 3
         cy = (p12[1] + p22[1] + p32[1]) / 3
         size = 3
         pygame.draw.line(screen, (0, 0, 0), (cx - size, cy - size), (cx + size, cy + size), 2)
         pygame.draw.line(screen, (0, 0, 0), (cx - size, cy + size), (cx + size, cy - size), 2)
-        
+
         # Traçage de trajectoire
         if len(self.pos) > 1 and not self.interpolate:
             for i in range(len(self.pos) - 1):
@@ -376,8 +375,8 @@ class Robot3RRR:
                 running = False
                 pygame.quit()
                 return "fin"
-            
-    def interpolate_path(self, points, n_steps=50, fps = 30):
+
+    def interpolate_path(self, points, n_steps=50, fps=30):
         self.interpolate = True
         self.fps = fps  
 
@@ -396,14 +395,14 @@ class Robot3RRR:
                 p_start = np.array(points[i])
                 p_end = np.array(points[i + 1])
                 for t in np.linspace(0, 1, n_steps):
-                    
+
                     if keys[pygame.K_ESCAPE] or keys[pygame.K_SPACE]:
                         running = False
                         pygame.quit()
                         return "fin"
 
                     p_interp = (1 - t) * p_start + t * p_end
-                    
+
                     new_q = self.mgi_analytique(p_interp)
 
                     if not isinstance(new_q, int):  # if q == 0
@@ -411,18 +410,17 @@ class Robot3RRR:
                         self.q = new_q
                         if self.pen:
                             self.pos.append(self.pos_eff[:])  # trace que si valide
-                    
+
                     screen.fill((255, 255, 255))
                     clock.tick(self.fps)
                     self.clock.append(self.clock[-1] + self.step)
                     self.draw(screen)
                     pygame.display.flip()
 
-    
         self.interpolate = False
         self.fps = 60
 
-    def trace_square(self, height = 0.07, n_steps = 100, fps = 60):
+    def trace_square(self, height=0.07, n_steps=100, fps=60):
         """Trace un carré"""
 
         square_points = [
@@ -436,9 +434,9 @@ class Robot3RRR:
         self.pos = []
         self.pen = True
 
-        self.interpolate_path(square_points, n_steps = n_steps, fps = fps)
+        self.interpolate_path(square_points, n_steps=n_steps, fps=fps)
 
-    def trace_circle(self, center = (0.0, 0.0), radius=0.07, N = 100, n_steps = 10, fps = 60):
+    def trace_circle(self, center=(0.0, 0.0), radius=0.07, N=100, n_steps=10, fps=60):
         """Trace un cercle"""
 
         circle_points = []
@@ -450,15 +448,16 @@ class Robot3RRR:
             y = center[1] + radius * sin(angle)
             circle_points.append([x, y, 0])
 
-        self.interpolate_path(circle_points, n_steps = n_steps, fps = fps)
+        self.interpolate_path(circle_points, n_steps=n_steps, fps=fps)
 
-    def trace_polygone(self, points_list, n_steps = 100, fps = 30):
+    def trace_polygone(self, points_list, n_steps=100, fps=30):
         """Trace un polygone"""
 
         self.pos = []
         self.pen = True
 
-        self.interpolate_path(points_list, n_steps = n_steps, fps = fps)
+        self.interpolate_path(points_list, n_steps=n_steps, fps=fps)
+
 
 if __name__ == '__main__':
 
@@ -478,13 +477,13 @@ if __name__ == '__main__':
 
     if test_square:
         robot.game = True
-        robot.trace_square()    #Rester appuyé sur échap pour quitter
+        robot.trace_square()    # Rester appuyé sur échap pour quitter
 
     if test_circle:
         robot.game = True
-        robot.trace_circle()    #Rester appuyé sur échap pour quitter
+        robot.trace_circle()    # Rester appuyé sur échap pour quitter
 
     if test_polygone:
         robot.game = True
-        points_list = [[0,0,0],[-0.03,0.06,0],[0.08,-0.02,2.1],[-0.01,-0.04,1.3],[0,0,0]]
-        robot.trace_polygone(points_list=points_list)    #Rester appuyé sur échap pour quitter
+        points_list = [[0, 0, 0], [-0.03, 0.06, 0], [0.08, -0.02, 2.1], [-0.01, -0.04, 1.3], [0, 0, 0]]
+        robot.trace_polygone(points_list=points_list)    # Rester appuyé sur échap pour quitter
