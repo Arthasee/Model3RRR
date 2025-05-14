@@ -298,14 +298,14 @@ class Robot3RRR:
                                        [(p12[0], p12[1]),
                                         (p22[0], p22[1]),
                                         (p32[0], p32[1])])
-        
+
         # Croix au centre du triangle
         cx = (p12[0] + p22[0] + p32[0]) / 3
         cy = (p12[1] + p22[1] + p32[1]) / 3
         size = 3
         pygame.draw.line(screen, (0, 0, 0), (cx - size, cy - size), (cx + size, cy + size), 2)
         pygame.draw.line(screen, (0, 0, 0), (cx - size, cy + size), (cx + size, cy - size), 2)
-        
+
         # Traçage de trajectoire
         if len(self.pos) > 1 and not self.interpolate:
             for i in range(len(self.pos) - 1):
@@ -375,8 +375,8 @@ class Robot3RRR:
                 running = False
                 pygame.quit()
                 return "fin"
-            
-    def interpolate_path(self, points, n_steps=50, fps = 30):
+
+    def interpolate_path(self, points, n_steps=50, fps=30):
         self.interpolate = True
         self.fps = fps  
 
@@ -395,14 +395,14 @@ class Robot3RRR:
                 p_start = np.array(points[i])
                 p_end = np.array(points[i + 1])
                 for t in np.linspace(0, 1, n_steps):
-                    
+
                     if keys[pygame.K_ESCAPE] or keys[pygame.K_SPACE]:
                         running = False
                         pygame.quit()
                         return "fin"
 
                     p_interp = (1 - t) * p_start + t * p_end
-                    
+
                     new_q = self.mgi_analytique(p_interp)
 
                     if not isinstance(new_q, int):  # if q == 0
@@ -410,14 +410,13 @@ class Robot3RRR:
                         self.q = new_q
                         if self.pen:
                             self.pos.append(self.pos_eff[:])  # trace que si valide
-                    
+
                     screen.fill((255, 255, 255))
                     clock.tick(self.fps)
                     self.clock.append(self.clock[-1] + self.step)
                     self.draw(screen)
                     pygame.display.flip()
 
-    
         self.interpolate = False
         self.fps = 60
 
