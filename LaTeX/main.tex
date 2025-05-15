@@ -290,6 +290,11 @@ Lors du calcul de la position, nous prenons en compte les singularités possible
 Nous avions initialement voulu calculé pour chaque pas de temps la position de l'effecteur donnant le déterminant le plus grand, mais cela prenait un temps considérable en calcul et nous avons donc préférer opter pour une option plus rapide.
 
 TODO - ajouter schéma + image + prendre en vidéo
+
+TODO - expliquer comment fonctionne la méthode interpolate_path (chaque fonction "trace" crée les points, et la fonction interpolate_path crée des points entre chaque pour interpoler la trajectoire avec n_steps points)
+
+TODO - Bien expliquer la façon dont on optimise l'orientation de theta_e avec la méthode  (optimize_orientation). L'idée étant de s'éloigner le plus possible des configurations de droites concourantes, en évitant les collisions (avec la méthode check_collision et segment_distance).
+
 \section{Réalisation}
 
 \section*{Conclusion}
