@@ -280,9 +280,16 @@ Notre simulation permet de controller l'effecteur via les touches de notre clavi
     \item un carré
     \item un cercle
     \item un polynôme quelconque
+    \item un trèfle
 \end{itemize}
 
 Notre méthode \textit{interpolate\_path} prend les points de la figure (par exemple les quatres points du carré) et fait une interpolation entre ces points afin que le robot suive la bonne courbe.
+
+Lors du calcul de la position, nous prenons en compte les singularités possibles du robot. Si nous sommes dans le cas de la singularité série, le robot se bloque dans la direction limité uniquement. Pour les singularités parallèles nous calculons la valeur de l'angle de rotation de l'effecteur permettant d'avoir le déterminant de la matrice A le plus grand entre $\pm1$ degrés de l'angle actuel.
+
+Nous avions initialement voulu calculé pour chaque pas de temps la position de l'effecteur donnant le déterminant le plus grand, mais cela prenait un temps considérable en calcul et nous avons donc préférer opter pour une option plus rapide.
+
+TODO - ajouter schéma + image + prendre en vidéo
 \section{Réalisation}
 
 \section*{Conclusion}
