@@ -84,10 +84,6 @@ class Robot3RRR:
             alpha = atan2(y, x) - atan2(self.l2*sin(beta), self.l1+self.l2*cos(beta))
             q = np.append(q, alpha)
             q = np.append(q, beta)
-<<<<<<< HEAD
-=======
-        # print(self.pos)
->>>>>>> 1c11699fa3034bcafed56f3be6b017f028ff5869
         return q
 
     def trace_rob(self, q, name):
@@ -411,13 +407,24 @@ class Robot3RRR:
 
         if not self.game:
             return
+
         pygame.init()
         screen = pygame.display.set_mode(self.game_dimensions)
         clock = pygame.time.Clock()
 
         running = True
         while running:
-            keys = pygame.key.get_pressed()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                    pygame.quit()
+                    return "fin"
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE or event.key == pygame.K_SPACE:
+                        running = False
+                        pygame.quit()
+                        return "fin"
+
             for i in range(len(points) - 1):
                 p_start = np.array(points[i])
                 p_end = np.array(points[i + 1])
@@ -427,6 +434,17 @@ class Robot3RRR:
                 end_orientation = self.optimize_orientation(p_end)
 
                 for t in np.linspace(0, 1, n_steps):
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            running = False
+                            pygame.quit()
+                            return "fin"
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_ESCAPE or event.key == pygame.K_SPACE:
+                                running = False
+                                pygame.quit()
+                                return "fin"
+
                     p_interp = (1 - t) * p_start + t * p_end
                     # Interpoler l'orientation
                     p_interp[2] = (1 - t) * start_orientation + t * end_orientation
@@ -445,13 +463,9 @@ class Robot3RRR:
                     self.draw(screen)
                     pygame.display.flip()
 
-                    if keys[pygame.K_ESCAPE] or keys[pygame.K_SPACE]:
-                        running = False
-                        pygame.quit()
-                        return "fin"
-
         self.interpolate = False
         self.fps = 60
+
 
     def optimize_orientation(self, pos_eff):
         best_orientation = pos_eff[2]
@@ -546,8 +560,8 @@ class Robot3RRR:
 
 if __name__ == '__main__':
 
-    test_control = 1
-    test_square = 0
+    test_control = 0
+    test_square = 1
     test_circle = 0
     test_trefle = 0
     test_polygone = 0
@@ -560,6 +574,8 @@ if __name__ == '__main__':
         robot.simulate()
         robot.game = False
         robot.draw()
+
+    # Les orientations des formes ci-dessous seront optimisées pour s'éloigner des singularités
 
     if test_square:
         robot.trace_square()    # Rester appuyé sur échap pour quitter
