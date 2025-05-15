@@ -79,7 +79,8 @@ class Robot3RRR:
                 beta = acos(aux)
             else:
                 beta = 0
-                print("[ERREUR] -- problème d'atteignabilité")
+                if not self.interpolate:
+                    print("[ERREUR] -- problème d'atteignabilité")
                 return 0
             alpha = atan2(y, x) - atan2(self.l2*sin(beta), self.l1+self.l2*cos(beta))
             q = np.append(q, alpha)
@@ -230,7 +231,7 @@ class Robot3RRR:
         detA = det_A(gamma1, gamma2, gamma3, d1, d2, d3)
         detB = det_B(e1, e2, e3)
 
-        if -0.1 <= detA <= 0.1:
+        if abs(detA) < 0.01:
             if gamma1/pi == gamma2/pi and gamma2/pi == gamma3/pi:
                 print("Singularité parallèle, les trois droites sont parallèles.")
             else:
@@ -342,6 +343,67 @@ class Robot3RRR:
             for i, line in enumerate(commands):
                 text_surface = font.render(line, True, (0, 0, 0))
                 screen.blit(text_surface, (10, 10 + i * 20))  # position verticale espacée
+
+    def segment_distance(self, p1, p2, q1, q2):
+        """Retourne la distance minimale entre deux segments en 2D"""
+        def dot(a, b):
+            return np.dot(a, b)
+
+        def norm(a):
+            return np.linalg.norm(a)
+
+        def clamp(x, a, b):
+            return max(a, min(x, b))
+
+        p1, p2, q1, q2 = np.array(p1), np.array(p2), np.array(q1), np.array(q2)
+        d1 = p2 - p1
+        d2 = q2 - q1
+        r = p1 - q1
+        a = dot(d1, d1)
+        e = dot(d2, d2)
+        f = dot(d2, r)
+
+        if a <= 1e-8 and e <= 1e-8:
+            return norm(p1 - q1)
+        if a <= 1e-8:
+            s = 0
+            t = clamp(f / e, 0, 1)
+        else:
+            c = dot(d1, r)
+            if e <= 1e-8:
+                t = 0
+                s = clamp(-c / a, 0, 1)
+            else:
+                b = dot(d1, d2)
+                denom = a * e - b * b
+                if denom != 0:
+                    s = clamp((b * f - c * e) / denom, 0, 1)
+                else:
+                    s = 0
+                t = (b * s + f) / e
+                if t < 0:
+                    t = 0
+                    s = clamp(-c / a, 0, 1)
+                elif t > 1:
+                    t = 1
+                    s = clamp((b - c) / a, 0, 1)
+
+        closest_point_p = p1 + d1 * s
+        closest_point_q = q1 + d2 * t
+        return norm(closest_point_p - closest_point_q)
+
+    def check_collision(self, q):
+        p10, p11, p12, p20, p21, p22, p30, p31, p32 = self.trace_rob_game(q)
+
+        seuil_epaisseur = 0.05  # Ajuste en fonction de la taille de tes bras
+
+        if self.segment_distance(p11[:2], p12[:2], p21[:2], p22[:2]) < seuil_epaisseur:
+            return True
+        if self.segment_distance(p11[:2], p12[:2], p31[:2], p32[:2]) < seuil_epaisseur:
+            return True
+        if self.segment_distance(p21[:2], p22[:2], p31[:2], p32[:2]) < seuil_epaisseur:
+            return True
+        return False
 
     def simulate(self):
         """simulate on pygame the robot and its displacements"""
@@ -468,42 +530,54 @@ class Robot3RRR:
 
 
     def optimize_orientation(self, pos_eff):
-        best_orientation = pos_eff[2]
-        error = False
+        orientation_center = pos_eff[2]
+        q_ref = self.q if hasattr(self, 'q') else None
 
-        orientation = pos_eff[2]
-        q = self.mgi_analytique(pos_eff)
-        if isinstance(q, int):
-            print("[ERREUR] -- problème d'atteignabilité")
-            error = True
+        best_orientation = orientation_center
+        min_joint_jump = float('inf')
+        detA_threshold = 0.01  # à ajuster
 
-        p10, p11, p12, p20, p21, p22, p30, p31, p32 = self.trace_rob_game(q)
+        candidate_orientations = np.linspace(orientation_center - np.pi, orientation_center + np.pi, 30)
 
-        gamma1 = atan2(p12[1]-p11[1], p12[0] - p11[0])
-        gamma2 = atan2(p22[1]-p21[1], p22[0] - p21[0])
-        gamma3 = atan2(p32[1]-p31[1], p32[0] - p31[0])
+        for candidate_orientation in candidate_orientations:
+            pos_eff[2] = candidate_orientation
+            q = self.mgi_analytique(pos_eff)
 
-        d1 = (self.pos_eff-p12).dot(array([-sin(gamma1),cos(gamma1),1]))
-        d2 = (self.pos_eff-p22).dot(array([-sin(gamma2),cos(gamma2),1]))
-        d3 = (self.pos_eff-p32).dot(array([-sin(gamma3),cos(gamma3),1]))
+            if isinstance(q, int):  # Inatteignable
+                continue
 
-        detA = abs(det_A(gamma1, gamma2, gamma3, d1, d2, d3))
+            if self.check_collision(q): # Collision
+                continue
 
-        kp = 0.2
-        ecart = kp*(abs(detA - orientation))
-        distance1 = detA - (orientation + ecart)
-        distance2 = detA - (orientation - ecart)
+            # Calcul du déterminant Jacobien approx (via trace_rob_game)
+            p10, p11, p12, p20, p21, p22, p30, p31, p32 = self.trace_rob_game(q)
+            
+            gamma1 = atan2(p12[1]-p11[1], p12[0] - p11[0])
+            gamma2 = atan2(p22[1]-p21[1], p22[0] - p21[0])
+            gamma3 = atan2(p32[1]-p31[1], p32[0] - p31[0])
 
-        # On prend l'orientation de telle sorte que la position soit la plus loin des singularités
-        if error:
-            best_orientation = orientation
-        elif distance1 < distance2:
-            best_orientation = orientation - ecart
-        else:
-            best_orientation = orientation + ecart
+            d1 = (self.pos_eff-p12).dot(array([-sin(gamma1),cos(gamma1),1]))
+            d2 = (self.pos_eff-p22).dot(array([-sin(gamma2),cos(gamma2),1]))
+            d3 = (self.pos_eff-p32).dot(array([-sin(gamma3),cos(gamma3),1]))
 
 
+            detA = abs(det_A(gamma1, gamma2, gamma3, d1, d2, d3))
+            if detA < detA_threshold:
+                continue  # Trop proche singularité
+
+            # Priorité à la continuité des articulations
+            if q_ref is not None:
+                joint_jump = np.linalg.norm(np.array(q) - np.array(q_ref))
+            else:
+                joint_jump = 0  # Premier point
+
+            if joint_jump < min_joint_jump:
+                min_joint_jump = joint_jump
+                best_orientation = candidate_orientation
+
+        pos_eff[2] = best_orientation  # restore
         return best_orientation
+
 
     def trace_square(self, height=0.07, n_steps=100, fps=60):
         """Trace un carré"""
@@ -556,15 +630,13 @@ class Robot3RRR:
         self.pen = True
 
         self.interpolate_path(points_list, n_steps=n_steps, fps=fps)
-
-
 if __name__ == '__main__':
 
     test_control = 0
-    test_square = 1
+    test_square = 0
     test_circle = 0
     test_trefle = 0
-    test_polygone = 0
+    test_polygone = 1
 
     robot = Robot3RRR()
     robot.game = True
@@ -575,7 +647,8 @@ if __name__ == '__main__':
         robot.game = False
         robot.draw()
 
-    # Les orientations des formes ci-dessous seront optimisées pour s'éloigner des singularités
+    # Les orientations des formes ci-dessous seront optimisées pour s'éloigner du mieux possible des singularités
+    # Le but étant de s'éloigner le plus possible des lignes concourantes
 
     if test_square:
         robot.trace_square()    # Rester appuyé sur échap pour quitter
@@ -587,5 +660,5 @@ if __name__ == '__main__':
         robot.trace_trefle()    # Rester appuyé sur échap pour quitter
 
     if test_polygone:
-        points_list = [[0, 0, 0], [-0.03, 0.06, 0], [0.08, -0.02, 0], [-0.01, -0.04, 0], [0, 0, 0]]
+        points_list = [[0, 0, 0], [-0.03, 0.08, 0], [0.08, -0.02, 0], [-0.01, -0.04, 0], [-0.06, 0.04, 0], [0,0,0]]
         robot.trace_polygone(points_list=points_list)    # Rester appuyé sur échap pour quitter
