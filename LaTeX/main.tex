@@ -289,11 +289,17 @@ Lors du calcul de la position, nous prenons en compte les singularités possible
 
 Nous avions initialement voulu calculé pour chaque pas de temps la position de l'effecteur donnant le déterminant le plus grand, mais cela prenait un temps considérable en calcul et nous avons donc préférer opter pour une option plus rapide.
 
-TODO - ajouter schéma + image + prendre en vidéo
+% \textbf{TODO - ajouter schéma + image + prendre en vidéo}
 
-Pour tracer les différentes figures, nous avons une fonction pour chacune d'elles permettant de crée les points que l'effecteur devra passer par. Ensuite nous utilisons une fonction d'interpolation de point qui va construire la ligne que le robot devra suivre entre 2 points
+Pour tracer les différentes figures, nous avons une fonction pour chacune d'elles permettant de crée les points que l'effecteur devra passer par. Ensuite nous utilisons une fonction d'interpolation de point qui va construire la ligne que le robot devra suivre entre 2 points.
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.2\textwidth]{Figures/diag_trace_method.pdf}
+    \caption{Diagramme de la méthode pour tracer une figure}
+    \label{fig:diag_tracemethode}
+\end{figure}
 
-TODO - expliquer comment fonctionne la méthode interpolate$\_$path (chaque fonction "trace" crée les points, et la fonction interpolate$\_$path crée des points entre chaque pour interpoler la trajectoire avec n$\_$steps points)
+% TODO - expliquer comment fonctionne la méthode interpolate$\_$path (chaque fonction "trace" crée les points, et la fonction interpolate$\_$path crée des points entre chaque pour interpoler la trajectoire avec n$\_$steps points)
 
 Afin d'éviter les singularités parallèles nous modifions la rotation de l'effecteur. Pour faire cela, nous déterminons la matrice A de l'énoncé, et nous calculons son déterminant. De par la limitation de la simulation, les coudes des 3 bras seront toujours dans le même "sens", ainsi nous évitons naturellement le cas de singularité parallèle où les avant-bras sont parallèles. Nous devons donc uniquement regardé si le déterminant de la matrice est proche de 0. Dans tous les cas nous recherchons à éloigner le plus possible le robot d'une configuration de droites concourantes en évitant les collisions.
 
