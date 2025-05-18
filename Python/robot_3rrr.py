@@ -528,7 +528,6 @@ class Robot3RRR:
         self.interpolate = False
         self.fps = 60
 
-
     def optimize_orientation(self, pos_eff):
         orientation_center = pos_eff[2]
         q_ref = self.q if hasattr(self, 'q') else None
@@ -578,7 +577,6 @@ class Robot3RRR:
         pos_eff[2] = best_orientation  # restore
         return best_orientation
 
-
     def trace_square(self, height=0.07, n_steps=100, fps=60):
         """Trace un carré"""
 
@@ -609,7 +607,7 @@ class Robot3RRR:
 
         self.interpolate_path(circle_points, n_steps=n_steps, fps=fps)
 
-    def trace_trefle(self, gain = 0.02, N=100, n_steps=10, fps=60):
+    def trace_trefle(self, gain=0.02, N=100, n_steps=10, fps=60):
         """Trace un trèfle"""
         trefle_points = []
 

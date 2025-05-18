@@ -1,0 +1,22 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>210</x><y>90</y><w>280</w><h>340</h></coordinates><panel_attributes>&lt;&lt;Robot3RRR&gt;&gt;
+--
+-l1: float (0.13)
+-l2: float (0.15)
+-rb: float (0.164)
+-re: float (0.04618)
+--
+__str__(self)
+__repr__(self)
+mgi_analytique(self, eff)
+trace_rob(self, q, name)
+trace_rob_game(self, q)
+draw(self, screen)
+segment_distance(self, p1, p2, q1, q2)
+check_collision(self, q)
+simulate(self)
+interpolate_path(self, points, n_steps, fps)
+optimize_orientation(self, pos_eff)
+trace_square(self, height, n_steps, fps)
+trace_circle(self, center, radius, N, n_steps, fps)
+trace_trefle(self, gain, N, n_steps, fps)
+trace_polygone(self, points_list, n_steps, fps)</panel_attributes><additional_attributes></additional_attributes></element></diagram>

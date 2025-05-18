@@ -271,9 +271,29 @@ Enfin, nous effectuons l'assemblage du robot en utilisant des contraintes standa
 On propose 3 captures d'écrans des 3 différentes singularités sur la figure \ref{fig:singularity}.
 
 \section{Simulation}
+\subsection{Le simulateur}
 Afin de simuler le robot, nous avions accès à des codes en MatLab. Ces codes permettent de calculer le modèle géométrique inverse de façon analytique et numérique, ainsi qu'une fonction permettant de tracer la configuration de l'appareil.
 
-Notre première étape fut de transformer ces codes sous Python afin de les utiliser dans notre simulation. Pour celle-ci, nous avons utilisé la bibliothèque PyGame, qui permet d'afficher des éléments graphiques avec de l'animation. Par simplicité, nous avons créé une classe Robot3RRR pour tous les calculs nécessaire à la simulation.
+Notre première étape fut de transformer ces codes sous Python afin de les utiliser dans notre simulation. Pour celle-ci, nous avons utilisé la bibliothèque PyGame, qui permet d'afficher des éléments graphiques avec de l'animation. Par simplicité, nous avons créé une classe Robot3RRR pour tous les calculs nécessaire à la simulation. Vous pouvez retrouver un UML simplifié de notre classe sur la Figure \ref{fig:uml_class}.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.5\textwidth]{Figures/robot_3rrr_uml.pdf}
+    \caption{UML de notre classe Robot3RRR}
+    \label{fig:uml_class}
+\end{figure}
+
+Une des premières choses que nous avons fait est de comparer la méthode numérique et la méthode analytique pour voir si la représentation graphique fonctionnait bien. TODO - check si on garde ce point là.
+
+Pour notre simulation nous avons décidé d'utiliser uniquement la méthode analytique pour résoudre le modèle géométrique inverse. Cela pourrait être intéressant de voir si la méthode numérique serait plus efficace ici.
+
+L'affichage de notre simulateur ressemble à la Figure \ref{fig:image_simu}. Au centre se trouve notre robot. Les bras sont initialement de même longueur que notre modélisation 3D. Ces dimensions peuvent être changées lors de l'appel de la classe. Au centre du robot, nous retrouvons notre effecteur qui, dans le projet, est un stylo, nous avons donc fait en sorte que le robot trace son déplacement en même temps. 
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.75\textwidth]{Figures/image_affichagesimu.png}
+    \caption{Image de notre simulateur - Contrôle du robot par clavier}
+    \label{fig:image_simu}
+\end{figure}
 
 Notre simulation permet de controller l'effecteur via les touches de notre clavier, mais aussi de dessiner des formes prédéfinis :
 \begin{itemize}
@@ -282,6 +302,18 @@ Notre simulation permet de controller l'effecteur via les touches de notre clavi
     \item un polynôme quelconque
     \item un trèfle
 \end{itemize}
+Nous allons développer le fonctionnement du contrôle du clavier et la méthode pour dessiner dans les sous-parties suivantes.
+
+\subsection{Contrôle par le clavier}
+Comme vu dans la Figure \ref{fig:image_simu}, lorsque nous lançons le contrôle par clavier, les touches de commandes s'affichent en haut à gauche de la fenêtre. Nous pouvons :
+\begin{itemize}
+    \item déplacer l'effecteur avec Z,Q,S,D,A et E
+    \item Activer le crayon ou non avec T
+    \item Quitter la simulation avec ESC ou ESPACE
+\end{itemize}
+À la fin, après avoir quitté, une fenêtre Matplotlib apparaît afin de voir la dernière position du robot et le dessin tracé. Il est très simple une fois la simulation faite de sauvegarder la liste de positions de l'effecteur et d'utiliser la méthode pour tracer un polynôme afin de garder ce dessin pour une utilisation type usine.
+
+\subsection{Méthode des dessins}
 
 Notre méthode \textit{interpolate\_path} prend les points de la figure (par exemple les quatres points du carré) et fait une interpolation entre ces points afin que le robot suive la bonne courbe.
 
