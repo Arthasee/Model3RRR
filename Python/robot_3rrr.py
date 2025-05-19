@@ -630,11 +630,11 @@ class Robot3RRR:
         self.interpolate_path(points_list, n_steps=n_steps, fps=fps)
 if __name__ == '__main__':
 
-    test_control = 1
+    test_control = 0
     test_square = 0
     test_circle = 0
     test_trefle = 0
-    test_polygone = 0
+    test_polygone = 1
 
     robot = Robot3RRR()
     robot.game = True
