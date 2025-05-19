@@ -274,7 +274,6 @@ On propose 3 captures d'écrans des 3 différentes singularités sur la figure \
 \subsection{Le simulateur}
 Afin de simuler le robot, nous avions accès à des codes en MatLab. Ces codes permettent de calculer le modèle géométrique inverse de façon analytique et numérique, ainsi qu'une fonction permettant de tracer la configuration de l'appareil.
 
-Notre première étape fut de transformer ces codes sous Python afin de les utiliser dans notre simulation. Pour celle-ci, nous avons utilisé la bibliothèque PyGame, qui permet d'afficher des éléments graphiques avec de l'animation. Par simplicité, nous avons créé une classe Robot3RRR pour tous les calculs nécessaire à la simulation. Vous pouvez retrouver un UML simplifié de notre classe sur la Figure \ref{fig:uml_class}.
 
 \begin{figure}[!htb]
     \centering
@@ -282,18 +281,19 @@ Notre première étape fut de transformer ces codes sous Python afin de les util
     \caption{UML de notre classe Robot3RRR}
     \label{fig:uml_class}
 \end{figure}
+Notre première étape fut de transformer ces codes sous Python afin de les utiliser dans notre simulation. Pour celle-ci, nous avons utilisé la bibliothèque PyGame, qui permet d'afficher des éléments graphiques avec de l'animation. Par simplicité, nous avons créé une classe Robot3RRR pour tous les calculs nécessaire à la simulation. Vous pouvez retrouver un UML simplifié de notre classe sur la Figure \ref{fig:uml_class}.
 
 Une des premières choses que nous avons fait est de comparer la méthode numérique et la méthode analytique pour voir si la représentation graphique fonctionnait bien. TODO - check si on garde ce point là.
 
 Pour notre simulation nous avons décidé d'utiliser uniquement la méthode analytique pour résoudre le modèle géométrique inverse. Cela pourrait être intéressant de voir si la méthode numérique serait plus efficace ici.
 
-L'affichage de notre simulateur ressemble à la Figure \ref{fig:image_simu}. Au centre se trouve notre robot. Les bras sont initialement de même longueur que notre modélisation 3D. Ces dimensions peuvent être changées lors de l'appel de la classe. Au centre du robot, nous retrouvons notre effecteur qui, dans le projet, est un stylo, nous avons donc fait en sorte que le robot trace son déplacement en même temps. 
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=0.75\textwidth]{Figures/image_affichagesimu.png}
     \caption{Image de notre simulateur - Contrôle du robot par clavier}
     \label{fig:image_simu}
 \end{figure}
+L'affichage de notre simulateur ressemble à la Figure \ref{fig:image_simu}. Au centre se trouve notre robot. Les bras sont initialement de même longueur que notre modélisation 3D. Ces dimensions peuvent être changées lors de l'appel de la classe. Au centre du robot, nous retrouvons notre effecteur qui, dans le projet, est un stylo, nous avons donc fait en sorte que le robot trace son déplacement en même temps. 
 
 Notre simulation permet de controller l'effecteur via les touches de notre clavier, mais aussi de dessiner des formes prédéfinis :
 \begin{itemize}
@@ -331,7 +331,7 @@ Pour tracer les différentes figures, nous avons une fonction pour chacune d'ell
     \label{fig:diag_tracemethode}
 \end{figure}
 
-% TODO - expliquer comment fonctionne la méthode interpolate$\_$path (chaque fonction "trace" crée les points, et la fonction interpolate$\_$path crée des points entre chaque pour interpoler la trajectoire avec n$\_$steps points)
+TODO - expliquer comment fonctionne la méthode interpolate\_path (chaque fonction "trace" crée les points, et la fonction interpolate$\_$path crée des points entre chaque pour interpoler la trajectoire avec n\_steps points)
 
 Afin d'éviter les singularités parallèles nous modifions la rotation de l'effecteur. Pour faire cela, nous déterminons la matrice A de l'énoncé, et nous calculons son déterminant. De par la limitation de la simulation, les coudes des 3 bras seront toujours dans le même "sens", ainsi nous évitons naturellement le cas de singularité parallèle où les avant-bras sont parallèles. Nous devons donc uniquement regardé si le déterminant de la matrice est proche de 0. Dans tous les cas nous recherchons à éloigner le plus possible le robot d'une configuration de droites concourantes en évitant les collisions.
 
@@ -342,14 +342,17 @@ Afin d'éviter les singularités parallèles nous modifions la rotation de l'eff
     \label{fig:dessins}
 \end{figure}
 
-TODO - Bien expliquer la façon dont on optimise l'orientation de $\theta_e$ avec la méthode  (optimize$\_$orientation). L'idée étant de s'éloigner le plus possible des configurations de droites concourantes, en évitant les collisions (avec la méthode check$\_$collision et segment$\_$distance).
-
+TODO - Bien expliquer la façon dont on optimise l'orientation de $\theta_e$ avec la méthode  (optimize\_orientation). L'idée étant de s'éloigner le plus possible des configurations de droites concourantes, en évitant les collisions (avec la méthode check\_collision et segment\_distance).
 \section{Réalisation}
 
 \section*{Conclusion}
 \addcontentsline{toc}{section}{Conclusion}
+Pour conclure, nous avons pu travailler sur la conception et la simulation d'un robot parallèle en appliquant nos connaissances apprises durant l'année et en respectant un cahier des charges. Ce travail pratique nous a donc permis d'avoir un avant-goût de l'ingénierie dans le domaine de la robotique.
 
-% \newpage
+Notre conception étant faite avec SolidWorks, nous pourrons imprimer les différentes pièces afin de construire notre robot et l'améliorer si besoin. La simulation a une structure permettant d'être changer rapidement et efficacement. En poussant un peu plus loin de concept nous aurions pu créer un prototype de logiciel modulable pour notre robot avec une meilleure interface graphique. 
+
+Cependant notre projet peut encore être à améliorer. Nous pourrions analyser en détail la différence entre la méthode analytique et numérique pour le modèle géométrique inverse afin d'opter pour le plus optimal. De plus, notre simulation ne peut pas avoir de coude opposé. Cela nous empêche de voir et de prendre en compte le deuxième type de singularité parallèle. La dernière étape de notre simulation serait de pouvoir être relié à un robot physique et de suivre ses mouvements afin de voir la qualité et l'exactitude de notre simulateur.
+\newpage
 
 \newpage
 \nocite{*}
