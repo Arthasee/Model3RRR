@@ -155,6 +155,15 @@
 \section*{Introduction}
 \addcontentsline{toc}{section}{Introduction}
 
+\section*{Introduction}
+\addcontentsline{toc}{section}{Introduction}
+
+Ce projet vise à simuler et à concevoir un robot parallèle 3RRR, composé de trois bras RRR identiques reliés à un effecteur unique. L'objectif est de pouvoir contrôler la position et l'orientation de cet effecteur dans un plan, à travers une simulation interactive.
+
+Dans un premier temps, nous réaliserons le modèle 3D du robot sur SolidWorks, en prenant en compte plusieurs contraintes : maximisation de l'espace de travail, réduction des collisions entre les pièces, limitation des flexibilités, des jeux et des frottements, tout en respectant les contraintes de l'impression 3D.
+
+Dans un second temps, nous développerons une simulation en Python permettant de contrôler le robot en temps réel. Cette simulation implémentera le modèle géométrique inverse afin de déterminer les angles des actionneurs en fonction de la position désirée de l'effecteur. Une attention particulière sera portée à l'évitement et l'éloignement des configurations singulières, afin de garantir un mouvement fluide et contrôlable à chaque instant.
+
 \section{Conception}
 
 Pour la conception, nous utilisons le logiciel SolidWorks. Nous avons décidé de suivre le modèle du TP pour dessiner les différentes pièces, 
@@ -180,7 +189,7 @@ en s'assurant de garder des distances de l'ordre de la dizaine de centimètre ; 
     \label{fig:bras}
 \end{figure}
 
-Dans un premier temps, nous concevons les bras qui composent le robot pour décider de la taille générale de la maquette.
+Dans un premier temps, nous concevons les bras qui composent le robot pour décider de la taille générale de la maquette, qui ne doit pas être trop grande.
 Également, il est question de minimiser la quantité de matériaux utilisée pour les différentes pièces dans l'objectif de réduire le coût d'impression 3D.
 Nous opérons donc une optimisation topologique sur les différents bras en effectuant des allègements, comme nous pouvons le voir sur la figure \ref{fig:bras}, 
 qui détaille aussi les côtes des pièces en millimètres. Du reste, nous utilisons des congés pour adoucir les bords des pièces afin de rendre le robot plus harmonieux.
