@@ -157,7 +157,7 @@
 
 Ce projet vise à simuler et à concevoir un robot parallèle 3RRR, composé de trois bras RRR identiques reliés à un effecteur unique. L'objectif est de pouvoir contrôler la position et l'orientation de cet effecteur dans un plan, à travers une simulation interactive.
 
-Dans un premier temps, nous réaliserons le modèle 3D du robot sur SolidWorks, en prenant en compte plusieurs contraintes : maximisation de l'espace de travail, réduction des collisions entre les pièces, limitation des flexibilités, des jeux et des frottements, tout en respectant les contraintes de l'impression 3D.
+Dans un premier temps, nous réaliserons le modèle 3D du robot sur SolidWorks, en prenant en compte plusieurs contraintes, telles que la maximisation de l'espace de travail, la réduction des collisions entre les pièces, et la limitation des flexibilités, des jeux et des frottements, tout en respectant les contraintes de l'impression 3D.
 
 Dans un second temps, nous développerons une simulation en Python permettant de contrôler le robot en temps réel. Cette simulation implémentera le modèle géométrique inverse afin de déterminer les angles des actionneurs en fonction de la position désirée de l'effecteur. Une attention particulière sera portée à l'évitement et l'éloignement des configurations singulières, afin de garantir un mouvement fluide et contrôlable à chaque instant.
 
@@ -189,7 +189,7 @@ en s'assurant de garder des distances de l'ordre de la dizaine de centimètre ; 
 Dans un premier temps, nous concevons les bras qui composent le robot pour décider de la taille générale de la maquette, qui ne doit pas être trop grande.
 Également, il est question de minimiser la quantité de matériaux utilisée pour les différentes pièces dans l'objectif de réduire le coût d'impression 3D.
 Nous opérons donc une optimisation topologique sur les différents bras en effectuant des allègements, comme nous pouvons le voir sur la figure \ref{fig:bras}, 
-qui détaille aussi les côtes des pièces en millimètres. Du reste, nous utilisons des congés pour adoucir les bords des pièces afin de rendre le robot plus harmonieux.
+qui détaille aussi les cotes des pièces en millimètres. Par ailleurs, nous utilisons des congés pour adoucir les bords des pièces afin de rendre le robot plus harmonieux.
 
 \subsection{Effecteur}
 
@@ -202,10 +202,10 @@ qui détaille aussi les côtes des pièces en millimètres. Du reste, nous utili
 \end{figure}
 Pour l'effecteur, nous optons pour une forme triangulaire, dont les côtés sont agencés de telle sorte qu'ils puissent auceuillir les boulons.
 En effet, les trous que nous faisons sur les pièces (liaison pivot entre les bras et l'effecteur)
-ont pour but d'acceuillir des boulons M6 (diamètre du trou 6.3 mm), auquel on rajoute un jeu de 0.15 mm.
+ont pour but d'accueillir des boulons M6 (diamètre du trou 6.3 mm), auquel nous ajoutons un jeu de 0.15 mm.
 Dans un but de maximisation de l'espace de travail, nous effectuons des extrusions sur le bord de la pièce pour éviter les blocages et assurer une rotation libre,
 comme nous pouvons le voir sur la figure \ref{fig:effecteur}. 
-Nous ajoutons également un trou au centre pour acceuillir un stylo que l'on serre avec une vis M5.
+Nous ajoutons également un trou au centre pour accueillir un stylo que l'on serre avec une vis M5.
 
 \subsection{Moteur}
 
@@ -227,7 +227,7 @@ Nous ajoutons également un trou au centre pour acceuillir un stylo que l'on ser
     \caption{Moteur AX12}
     \label{fig:moteur}
 \end{figure}
-Quant aux moteurs, nous avons importé le cerveau moteur de type AX12 de Dynamixel que nous fixerons au bras grâce à quatre vis M2, comme nous pouvons le voir sur la figure \ref{fig:moteur}.
+Quant aux moteurs, nous avons importé le moteur de type AX12 de Dynamixel que nous fixerons au bras grâce à quatre vis M2, comme nous pouvons le voir sur la figure \ref{fig:moteur}.
 
 \subsection{Assemblage}
 
@@ -248,7 +248,7 @@ Quant aux moteurs, nous avons importé le cerveau moteur de type AX12 de Dynamix
     \label{fig:assemblage}
 \end{figure}
 
-Enfin, nous effectuons l'assemblage du robot en utilisant des contraintes standards de coaxialité et de coïncidence pour les vis, et des liaisons pivots entre les bras et l'effecteur. Nous accrochons ensuite les moteurs à une base fixe pour que ces derniers restent immobiles, comme illustré sur la figure \ref{fig:assemblage}.
+Enfin, nous effectuons l'assemblage du robot en utilisant des contraintes standards de coaxialité et de coïncidence pour les vis, et des liaisons pivot entre les bras et l'effecteur. Nous accrochons ensuite les moteurs à une base fixe pour que ces derniers restent immobiles, comme illustré sur la figure \ref{fig:assemblage}.
 
 \subsection{Singularités}
 
@@ -263,12 +263,12 @@ Enfin, nous effectuons l'assemblage du robot en utilisant des contraintes standa
     \begin{subfigure}[t]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Figures/singularité parallèle.png}
-        \caption{Singularité parallèle (droites parallèles)}
+        \caption{Singularités parallèle (droites parallèles)}
     \end{subfigure}
     \begin{subfigure}[t]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{Figures/singularite parallele concourante.png}
-        \caption{Singularité parallèle (droites concourantes)}
+        \caption{Singularités parallèle (droites concourantes)}
     \end{subfigure}
     \caption{Singularite série et parallèles}
     \label{fig:singularity}
@@ -321,15 +321,11 @@ Comme vu dans la Figure \ref{fig:image_simu}, lorsque nous lançons le contrôle
 
 \subsection{Méthode des dessins}
 
-Notre méthode \textit{interpolate\_path} prend les points de la figure (par exemple les quatres points du carré) et fait une interpolation entre ces points afin que le robot suive la bonne courbe.
-
-Lors du calcul de la position, nous prenons en compte les singularités possibles du robot. Si nous sommes dans le cas de la singularité série, le robot se bloque dans la direction limité uniquement. Pour les singularités parallèles nous calculons la valeur de l'angle de rotation de l'effecteur permettant d'avoir le déterminant de la matrice A le plus grand entre $\pm1$ degrés de l'angle actuel.
-
-Nous avions initialement voulu calculé pour chaque pas de temps la position de l'effecteur donnant le déterminant le plus grand, mais cela prenait un temps considérable en calcul et nous avons donc préférer opter pour une option plus rapide.
-
 % \textbf{TODO - ajouter schéma + image + prendre en vidéo}
 
-Pour tracer les différentes figures, nous avons une fonction pour chacune d'elles permettant de crée les points que l'effecteur devra passer par. Ensuite nous utilisons une fonction d'interpolation de point qui va construire la ligne que le robot devra suivre entre 2 points.
+Pour tracer les différentes figures, nous avons une fonction pour chacune d'elles permettant de créer les points par lesquels l'effecteur devra passer. Ensuite nous utilisons une fonction d'interpolation de points, la méthode \textit{interpolate\_path}, qui va construire la ligne que le robot devra suivre entre 2 points. Cette fonction permet une automatisation de la façon dont nous traçons chaque figure.
+
+Lors du calcul de la position, nous prenons en compte les singularités possibles du robot. Si nous sommes dans le cas de la singularité série, le robot se bloque dans la direction limité uniquement. Pour les singularités parallèles, nous calculons la valeur de l'angle de rotation de l'effecteur permettant d'avoir le déterminant de la matrice A non nulle. Nous avions initialement voulu calculer pour chaque pas de temps la position de l'effecteur donnant le déterminant le plus grand, mais cela prenait un temps considérable en calcul et nous avons donc préféré opter pour une option moins coûteuse, que nous détaillons ci-contre.
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=0.2\textwidth]{Figures/diag_trace_method.pdf}
@@ -337,9 +333,7 @@ Pour tracer les différentes figures, nous avons une fonction pour chacune d'ell
     \label{fig:diag_tracemethode}
 \end{figure}
 
-TODO - expliquer comment fonctionne la méthode interpolate\_path (chaque fonction "trace" crée les points, et la fonction interpolate$\_$path crée des points entre chaque pour interpoler la trajectoire avec n\_steps points)
-
-Afin d'éviter les singularités parallèles nous modifions la rotation de l'effecteur. Pour faire cela, nous déterminons la matrice A de l'énoncé, et nous calculons son déterminant. De par la limitation de la simulation, les coudes des 3 bras seront toujours dans le même "sens", ainsi nous évitons naturellement le cas de singularité parallèle où les avant-bras sont parallèles. Nous devons donc uniquement regardé si le déterminant de la matrice est proche de 0. Dans tous les cas nous recherchons à éloigner le plus possible le robot d'une configuration de droites concourantes en évitant les collisions.
+Afin d'éviter les singularités parallèles nous modifions donc la rotation de l'effecteur. Pour faire cela, nous déterminons la matrice A de l'énoncé, et nous calculons son déterminant. De par la limitation de la simulation, les coudes des 3 bras seront toujours dans le même "sens", ainsi nous évitons naturellement le cas de singularité parallèle où les avant-bras sont parallèles. Nous devons donc uniquement regardé si le déterminant de la matrice est proche de 0. Dans tous les cas, nous recherchons à éloigner le plus possible le robot d'une configuration de droites concourantes en évitant les collisions.
 
 \begin{figure}[!htb]
     \centering
@@ -348,8 +342,9 @@ Afin d'éviter les singularités parallèles nous modifions la rotation de l'eff
     \label{fig:dessins}
 \end{figure}
 
-TODO - Bien expliquer la façon dont on optimise l'orientation de $\theta_e$ avec la méthode  (optimize\_orientation). L'idée étant de s'éloigner le plus possible des configurations de droites concourantes, en évitant les collisions (avec la méthode check\_collision et segment\_distance).
-\section{Réalisation}
+La méthode \textit{optimize\_orientation} permet d'ajuster dynamiquement l'orientation $\theta_e$ de l'effecteur afin d'éviter les configurations proches de la singularité parallèle. Pour ce faire, on ne change pas les positions $(x, y)$ désirées, mais on fait varier $\theta_e$ dans un intervalle donné ($[-\pi, \pi]$).
+
+À chaque itération, nous allons procéder de telle manière à éviter les configurations de droites concourantes. L'objectif est donc de maximiser le déterminant de la matrice A (pour s'éloigner d'une valeur nulle et donc d'une singularité), en prenant soin d'éviter les collisions. La validation de chaque configuration est effectuée avec la méthode \textit{check\_collision} (calculée avec \textit{segment\_distance}), qui assure qu'aucune intersection entre les segments du robot n'est présente. La nouvelle orientation $\theta_e$ est alors sélectionnée comme celle qui répond le mieux à l'ensemble de ces critères.
 
 \section*{Conclusion}
 \addcontentsline{toc}{section}{Conclusion}
